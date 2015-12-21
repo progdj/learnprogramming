@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AMAK Docker Environment</title>
+
+    <link href="favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link rel="stylesheet" href="github-markdown.css">
+
+    <style>
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 45px;
+        }
+
+        .img-center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto
+        }
+
+        .txt-center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<article class="markdown-body">
+    <h1>Hoo-ray! Fancy AMAK Docker Stuff!</h1>
+
+    <p>Your Docker Environment is up and running. To start developing right in this container,
+        you could copy the project files to the mounted directory by hand. File by file. Everytime
+        you changed the code.</p>
+
+    <p>Or you could simply automate the deployment with <b>PhpStorm</b>,
+        which is by far more comfortable. No idea what I'm talkin' 'bout? Just read on.</p>
+
+    <h2>Deployment Setup</h2>
+
+    <p>Checkout <b>amak-frontend</b>, open the project in PhpStorm and follow the steps to properly set up your IDE.
+
+    <h3>AMAK-FRONTEND</h3>
+    <h4>1. Open the Settings</h4>
+
+    <p>
+        Open the <b>Deployment</b> page inside the <b>Build, execution, Deployment</b> menu and
+        click on the highlighted button as shown in the picture below.
+        <img src="img/1.png">
+    </p>
+
+    <h4>2. Add the Deployment Method</h4>
+
+    <p>
+        A window will show up, where you're supposed to name this deployment method and choose a
+        type. Simply name it <b>Docker</b> and select <b>Local or mounted folder</b>.
+        <img src="img/2.png">
+    </p>
+
+    <p>
+        Enable this deployment for every project, by unmarking the checkbox at the top of the first tab.
+        Locate and select the <code>app/www</code> directory of the AMAK Docker Environment and type in the IP
+        of your Container.
+        <img src="img/3.png">
+    </p>
+
+    <h4>3. Map your Project Path</h4>
+
+    <p>
+        Just type in <code>/amak-frontend</code> and everything will be fine.
+        <img src="img/4.png">
+    </p>
+
+    <h4>4. Pay Attention to the Details</h4>
+
+    <p>
+        Expand the <b>Deployment</b> menu item and open the <b>Options</b> page. Mark the shown checkbox and let
+        PhpStorm automatically upload your Changes by either selecting <b>On explicit save action</b> or <b>Always</b>
+        in that dropdown. Also mark the checkbox below, so that external changes, e.g. libraries installed via
+        <code>composer install</code> or that grunt gibberish, are deployed as well. Override the default file
+        permission with <code>775</code>.
+        <img src="img/5.png">
+    </p>
+
+    <p>
+        <img src="img/6.png" class="img-center">
+    </p>
+
+    <h3>AMAK-SOURCE</h3>
+
+    <p>
+        Checkout <b>amak-source</b> and again open your IDE settings inside that project.
+    </p>
+
+    <h4>1. Map your Project Path</h4>
+
+    <p>Select the <b>Mappings</b> tab and type in <code>/amak-source</code> almost just like you did in step 3 before.
+    </p>
+
+    <h4>2. It's all about the Details</h4>
+
+    <p>Repeat step 4 from the automatic deployment instruction for <b>amak-frontend</b>.</p>
+
+    <h2>Deployment</h2>
+
+    <p>While you're working on source code, PhpStorm now should do the deployment. But initially you should deploy it
+        manually. In both of the AMAK projects, right click on the projects root directory and click on <b>Upload to
+            Docker</b>.
+
+        <img src="img/7.png">
+    </p>
+
+    <h1 class="txt-center">That's it!</h1>
+
+    <p>If you encounter any weird problems during this instruction, blame it on <a href="mailto:schmidt@vrsmedia.de">the
+        author</a> of this document or try to figure out what's wrong on your own.</p>
+
+    <p>You can also find this document within the <code>app/default</code> directory of the AMAK Docker Environment.</p>
+</article>
+</body>
+</html>

@@ -1,10 +1,9 @@
 # This container serves as a pure data container
 app:
-  image: ubuntu:trusty
+  build: app/
   container_name: amak-app
   volumes:
-    - ./app:/var/www
-  tty: true
+    - ./app/www:/var/www
 
 # Percona database
 db:
