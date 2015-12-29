@@ -13,7 +13,10 @@ $cdn_url = '//cdn.vrs.local/';
 
 $amakSourceFolder  = '/var/www/amak-source/';
 
+// ICC Profiles
+$ICCProfileFolder = '/icc_profiles/';
+
 // What's that?
-$gs_binary = 'gswin64';
+$gs_binary = 'gs';
 
 ?>
