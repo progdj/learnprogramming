@@ -2,7 +2,9 @@
 
 echo AMAK Data Container initialized
 
-DIR_CONFIG="/var/www/amak-frontend/protected/config"
+DIR_PROJECT=/var/www/amak-frontend
+DIR_CONFIG=$DIR_PROJECT/protected/config
+DIR_HTML2PDF=$DIR_PROJECT/protected/vendor/html2pdf/html2pdf
 
 # Check if project files are deployed
 if [ -d $DIR_CONFIG ]; then
@@ -10,6 +12,7 @@ if [ -d $DIR_CONFIG ]; then
 
     cp /db_local.php $DIR_CONFIG
     cp /paths.php $DIR_CONFIG
+    cp /html2pdf.config.php $DIR_HTML2PDF/config.inc.php
 
     echo Done.
 else
