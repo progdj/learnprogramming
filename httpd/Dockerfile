@@ -2,7 +2,7 @@ FROM ubuntu:trusty
 
 # Install apache
 RUN DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get -y install \
+RUN apt-get -y update && apt-get -y install \
   apache2 \
   libapache2-mod-php5 \
   php5-mysql \
@@ -10,7 +10,8 @@ RUN apt-get update && apt-get -y install \
   php-apc \
   php5-curl \
   php5-xdebug \
-  curl
+  curl \
+  ghostscript
 
 # Enable apache mods
 RUN a2enmod php5 && a2enmod rewrite && a2enmod headers
@@ -19,6 +20,13 @@ RUN a2enmod proxy_http && a2enmod deflate && a2enmod proxy_connect
 
 # Error reporting
 RUN sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php5/apache2/php.ini
+
+# Add PDFLib extension
+ADD php_pdflib.so /php_pdflib.so
+
+# Add ICC profiles
+ADD ISOnewspaper26v4.icc /icc_profiles/
+ADD ISOnewspaper26v4_gr.icc /icc_profiles/
 
 # Overwrite configurations
 ADD apache.conf /etc/apache2/apache2.conf
