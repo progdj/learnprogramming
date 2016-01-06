@@ -2,6 +2,11 @@ FROM ubuntu:trusty
 
 # Install apache
 RUN DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get -y install software-properties-common
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
+RUN apt-add-repository ppa:ondrej/php5-5.6
+
 RUN apt-get -y update && apt-get -y install \
   apache2 \
   libapache2-mod-php5 \
