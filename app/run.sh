@@ -17,10 +17,10 @@ if [ -d $AMAK_DIR_CONFIG ]; then
     cp /html2pdf.config.php $AMAK_DIR_HTML2PDF/config.inc.php
     
     mkdir $AMAK_DIR_PROJECT/protected/runtime/ -p
-    chmod 777 $AMAK_DIR_PROJECT/protected/runtime/
+    chmod 777 -R $AMAK_DIR_PROJECT/protected/runtime/
 
     mkdir $AMAK_DIR_PROJECT/assets/ -p
-    chmod 777 $AMAK_DIR_PROJECT/assets/
+    chmod 777 -R $AMAK_DIR_PROJECT/assets/
     
     echo Done.
 else
@@ -41,10 +41,10 @@ if [ -d $CMS_DIR_CONFIG ]; then
     cp /paths.php $CMS_DIR_CONFIG
     
     mkdir $CMS_DIR_PROJECT/protected/runtime/ -p
-    chmod 777 $CMS_DIR_PROJECT/protected/runtime/
+    chmod 777 -R $CMS_DIR_PROJECT/protected/runtime/
     
     mkdir $CMS_DIR_PROJECT/assets/ -p
-    chmod 777 $CMS_DIR_PROJECT/assets/
+    chmod 777 -R $CMS_DIR_PROJECT/assets/
     
     echo Done.
 fi

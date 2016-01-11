@@ -15,6 +15,7 @@ RUN apt-get -y update && apt-get -y install \
   php-apc \
   php5-curl \
   php5-xdebug \
+  php5-mcrypt \
   curl \
   ghostscript
 
