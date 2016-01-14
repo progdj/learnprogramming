@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Start apache and tail the logs in the background
+# Start apache and tail the error log in the background
 source /etc/apache2/envvars
-touch /var/log/apache2/php.log
-tail -F /var/log/apache2/* &
+tail -F /var/log/apache2/error.log | cut -d" " -f 11- | grep PHP >&2 &
 exec apache2 -D FOREGROUND

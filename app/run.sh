@@ -16,10 +16,10 @@ if [ -d $AMAK_DIR_CONFIG ]; then
     cp /paths.php $AMAK_DIR_CONFIG
     cp /html2pdf.config.php $AMAK_DIR_HTML2PDF/config.inc.php
     
-    mkdir $AMAK_DIR_PROJECT/protected/runtime/ -p
+    mkdir -p $AMAK_DIR_PROJECT/protected/runtime/
     chmod 777 -R $AMAK_DIR_PROJECT/protected/runtime/
 
-    mkdir $AMAK_DIR_PROJECT/assets/ -p
+    mkdir -p $AMAK_DIR_PROJECT/assets/
     chmod 777 -R $AMAK_DIR_PROJECT/assets/
     
     echo Done.
@@ -27,7 +27,7 @@ else
     >&2 echo ERROR: No project files found!
     >&2 echo NOTICE: Copying default page with further instructions
 
-    mkdir /var/www/amak-frontend/img > /dev/null
+    mkdir -p /var/www/amak-frontend/img > /dev/null
     cp /default/* /var/www/amak-frontend
     cp /default/img/* /var/www/amak-frontend/img
     
@@ -40,10 +40,10 @@ if [ -d $CMS_DIR_CONFIG ]; then
     cp /db_local.php $CMS_DIR_CONFIG
     cp /paths.php $CMS_DIR_CONFIG
     
-    mkdir $CMS_DIR_PROJECT/protected/runtime/ -p
+    mkdir -p $CMS_DIR_PROJECT/protected/runtime/
     chmod 777 -R $CMS_DIR_PROJECT/protected/runtime/
     
-    mkdir $CMS_DIR_PROJECT/assets/ -p
+    mkdir -p $CMS_DIR_PROJECT/assets/
     chmod 777 -R $CMS_DIR_PROJECT/assets/
     
     echo Done.
