@@ -17,7 +17,9 @@ RUN apt-get -y update && apt-get -y install \
   php5-xdebug \
   php5-mcrypt \
   curl \
-  ghostscript
+  ghostscript \
+  npm \
+  nodejs-legacy
 
 # Enable apache mods
 RUN a2enmod php5 && a2enmod rewrite && a2enmod headers
