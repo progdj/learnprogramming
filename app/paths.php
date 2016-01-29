@@ -12,7 +12,11 @@ $frontend_data_path = '/var/www/amak-frontend/data/';
 // What's that?
 $cdn_url = '//cdn.vrs.local/';
 
+// Path to amak shared code base
 $amakSourceFolder  = '/var/www/amak-source/';
+
+// url to amak assets service
+$assetsUrl = 'http://assets.amak-server.local/';
 
 // ICC Profiles
 $ICCProfileFolder = '/icc_profiles/';
