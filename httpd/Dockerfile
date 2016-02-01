@@ -16,15 +16,14 @@ RUN apt-get -y update && apt-get -y install \
   php5-curl \
   php5-xdebug \
   php5-mcrypt \
+  php5-ssh2 \
   curl \
   ghostscript \
   npm \
   nodejs-legacy
 
 # Enable apache mods
-RUN a2enmod php5 && a2enmod rewrite && a2enmod headers
-# Enable Proxy mods
-RUN a2enmod proxy_http && a2enmod deflate && a2enmod proxy_connect
+RUN a2enmod php5 && a2enmod rewrite && a2enmod headers && a2enmod proxy_http && a2enmod deflate && a2enmod proxy_connect
 
 # Error reporting
 RUN sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php5/apache2/php.ini
