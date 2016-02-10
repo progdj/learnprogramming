@@ -4,7 +4,7 @@ FROM ubuntu:trusty
 RUN DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get -y install software-properties-common
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 4F4EA0AAE5267A6C
 RUN apt-add-repository ppa:ondrej/php5-5.6
 
 RUN apt-get -y update && apt-get -y install \
@@ -20,10 +20,15 @@ RUN apt-get -y update && apt-get -y install \
   curl \
   ghostscript \
   npm \
-  nodejs-legacy
+  nodejs-legacy \
+  php5-dev
 
 # Enable apache mods
 RUN a2enmod php5 && a2enmod rewrite && a2enmod headers && a2enmod proxy_http && a2enmod deflate && a2enmod proxy_connect
+
+# Build scrypt
+RUN pecl config-set php_ini /etc/php5/apache2/php.ini
+RUN yes '' | pecl install --force --soft scrypt
 
 # Error reporting
 RUN sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php5/apache2/php.ini
