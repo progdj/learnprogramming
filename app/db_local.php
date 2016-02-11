@@ -8,6 +8,7 @@ return array(
     'charset' => 'utf8',
     'enableProfiling' => true,
     'enableParamLogging' => true,
+    'tablePrefix' => '',
 )
 
 ?>
