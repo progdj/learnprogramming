@@ -16,6 +16,8 @@ if [ -d $AMAK_DIR_CONFIG ]; then
     cp /paths.php $AMAK_DIR_CONFIG
     cp /html2pdf.config.php $AMAK_DIR_HTML2PDF/config.inc.php
     
+    chmod 777 -R $AMAK_DIR_HTML2PDF/cache/
+    
     mkdir -p $AMAK_DIR_PROJECT/protected/runtime/
     chmod 777 -R $AMAK_DIR_PROJECT/protected/runtime/
 
