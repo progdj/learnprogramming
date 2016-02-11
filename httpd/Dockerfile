@@ -4,7 +4,7 @@ FROM ubuntu:trusty
 RUN DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get -y install software-properties-common
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 4F4EA0AAE5267A6C
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
 RUN apt-add-repository ppa:ondrej/php5-5.6
 
 RUN apt-get -y update && apt-get -y install \
