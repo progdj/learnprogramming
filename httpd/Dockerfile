@@ -45,6 +45,10 @@ ADD apache.conf /etc/apache2/apache2.conf
 ADD vhosts.conf /etc/apache2/sites-enabled/000-default.conf
 ADD php.ini /etc/php5/apache2/php.ini
 
+# Install composer
+RUN curl getcomposer.org/composer.phar > /usr/bin/composer
+RUN chmod +x /usr/bin/composer
+
 ADD run.sh /run.sh
 
 EXPOSE 80
