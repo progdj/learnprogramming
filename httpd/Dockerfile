@@ -21,7 +21,10 @@ RUN apt-get -y update && apt-get -y install \
   ghostscript \
   npm \
   nodejs-legacy \
-  php5-dev
+  php5-dev \
+  language-pack-de \
+  language-pack-nl \
+  language-pack-fr
 
 # Enable apache mods
 RUN a2enmod php5 && a2enmod rewrite && a2enmod headers && a2enmod proxy_http && a2enmod deflate && a2enmod proxy_connect
