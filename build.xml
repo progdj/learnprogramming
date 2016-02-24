@@ -14,6 +14,13 @@
     </target>
 
 
+    <target name="config-frontend" description="Applies Configuration for AMAK Frontend">
+        <exec command="${cmd.configure.frontend}" passthru="true"/>
+    </target>
+    <target name="config-cms" description="Applies Configuration for AMAK CMS">
+        <exec command="${cmd.configure.cms}" passthru="true"/>
+    </target>
+
 
 
     <target name="update-frontend" description="Executes a composer update in AMAK Frontend" depends="start">
