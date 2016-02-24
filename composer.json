@@ -33,8 +33,12 @@
 
     "scripts": {
         "post-install-cmd": [
-            "VrsMedia\\Composer\\ComposerHook::postInstall"
-        ]
+            "VrsMedia\\Composer\\ComposerHook::postInstall",
+            "@start-container",
+            "@import-database"
+        ],
+        "start-container": "VrsMedia\\Composer\\ComposerHook::startContainer",
+        "import-database": "VrsMedia\\Composer\\ComposerHook::importDatabase"
     },
 
     "extra": {

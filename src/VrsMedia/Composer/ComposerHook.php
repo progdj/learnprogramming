@@ -103,37 +103,59 @@ class ComposerHook
     }
 
     /**
+     * @param Event $event
+     */
+    public static function startContainer(Event $event)
+    {
+        $hook = new self($event);
+        if ($event->getIO()->askConfirmation('Do you want to start the containers now?  (yes)', true))
+        {
+            $hook->amaker('start');
+        }
+    }
+
+    /**
+     * Exectue the amaker.
+     *
+     * @param string $command
+     */
+    private function amaker($command)
+    {
+        passthru(sprintf('%s/amaker %s', getcwd(), $command));
+    }
+
+    /**
      * Import the database
      */
     public static function importDatabase(Event $event)
     {
         $io = $event->getIO();
 
+
+        if (!$io->askConfirmation('Do you want to import a existing database now? (no)', false))
+        {
+            return;
+        }
+
         $io->write('Please specify the source AMAK database.');
 
-        $dockerhost = '127.0.0.1';
-        if (getenv('DOCKER_HOST'))
-        {
-            preg_match('|(\d+\.\d+\.\d+\.\d+)|', getenv('DOCKER_HOST'), $matches);
-            $dockerhost = $matches[0];
-        }
+
         $sourceParams = [
-            'host'     => $io->ask('Host ('. $dockerhost .'): ', $dockerhost),
-            'dbname'   => $io->ask('Database (amak): ', 'amak'),
-            'user'     => $io->ask('User (root):', 'root'),
-            'password' => $io->ask('Password (root): ', 'root'),
+            'host'     => $io->ask('Source-Host:'),
+            'dbname'   => $io->ask('Source-Database (amak): ', 'amak'),
+            'user'     => $io->ask('Source-User:'),
+            'password' => $io->ask('Source-Password:'),
             'driver'   => 'pdo_mysql',
         ];
 
         $io->write('');
         exec('docker-machine ip default', $output, $code);
 
-        $localIp = null;
-
-        if($code == 0 && is_array($output)) {
-            $localIp = $output[0];
-        } else {
-            $localIp = $io->askConfirmation('IP of target database: ');
+        $localIp = '127.0.0.1';
+        if (getenv('DOCKER_HOST'))
+        {
+            preg_match('|(\d+\.\d+\.\d+\.\d+)|', getenv('DOCKER_HOST'), $matches);
+            $localIp = $matches[0];
         }
 
         $targetParams = [
@@ -211,10 +233,15 @@ class ComposerHook
         $configuration = new Configuration();
 
         $io = $this->getIO();
-        $io->write('Please specify the ports on which the application should be binded to');
+        $dbPort = 3306;
+        $httpdPort = 80;
+        if ($io->askConfirmation('Do you want to change the default exposed application ports? (no)', false))
+        {
+            $io->write('Please specify the ports on which the application should be binded to');
+            $dbPort    = $io->ask('Database ('. $dbPort .'): ', $dbPort);
+            $httpdPort = $io->ask('Webserver ('. $httpdPort .'): ', $httpdPort);
 
-        $dbPort    = $io->ask('Database (3306): ', '3306');
-        $httpdPort = $io->ask('Webserver (80): ', '80');
+        }
 
         $configuration->setDatabasePort($dbPort);
         $configuration->setHttpdPort($httpdPort);

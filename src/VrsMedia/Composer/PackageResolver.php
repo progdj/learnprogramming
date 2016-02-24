@@ -38,6 +38,12 @@ class PackageResolver
      */
     public function resolvePackages($packages, $rootDirectory)
     {
+        $configCacheFile = $rootDirectory . DIRECTORY_SEPARATOR . 'paths.json';
+        $configCache = [];
+        if (is_file($configCacheFile) && $this->io->askConfirmation('Read cached configuration from "paths.json"? (yes)', true))
+        {
+            $configCache = json_decode(file_get_contents($configCacheFile), true);
+        }
         $io = &$this->io;
         $io->write('Please specify the absolute paths of your project packages.');
         $io->write('');
@@ -46,13 +52,23 @@ class PackageResolver
         {
             $name = $package->getName();
 
-            $question  = sprintf("%s (%s): ", $name, $package->isRequired() ? 'required' : 'leave empty to skip');
+            $configName = str_replace('/', '-', $name);
+            $default = isset($configCache[$configName]) ? $configCache[$configName] : null;
+
+            $question  = sprintf(
+                "%s (%s)%s: ",
+                $name,
+                $package->isRequired() ? 'required' : 'pass "-" to skip',
+                $default ? '['. $default .']' : ''
+            );
             $validator = $this->getValidator($name, !$package->isRequired());
 
+
             try {
-                if ($path = $io->askAndValidate($question, $validator, 3))
+                if ($path = $io->askAndValidate($question, $validator, 3, $default))
                 {
                     $mounts[] = new VolumeMount($path, $package->getTarget());
+                    $configCache[$configName] = $path;
                 }
             }
             catch (Exception $failed)
@@ -64,6 +80,7 @@ class PackageResolver
                 }
             }
         }
+        file_put_contents($configCacheFile, json_encode($configCache));
         return $mounts;
     }
 
@@ -84,7 +101,7 @@ class PackageResolver
 
         return function ($path) use ($validator, $errorMessage, $package, $allowEmpty)
         {
-            if ($allowEmpty && !$path)
+            if ($allowEmpty && ($path === '-'))
             {
                 return null;
             }
