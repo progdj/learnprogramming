@@ -1,0 +1,62 @@
+{
+    "name": "vrsmedia/amak-docker",
+    "description": "Dockerized AMAK",
+    "keywords": [
+        "docker",
+        "amak"
+    ],
+
+    "homepage": "http://www.vrsmedia.de/",
+    "license": "proprietary",
+
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
+
+    "require": {
+        "php": "~5.6",
+        "composer/composer": "1.*",
+        "phing/phing": "2.*",
+        "php-di/php-di": "5.*",
+        "doctrine/dbal": "2.5.*"
+    },
+
+    "config": {
+        "bin-dir": "bin",
+        "preferred-install": "dist"
+    },
+
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+
+    "scripts": {
+        "post-install-cmd": [
+            "VrsMedia\\Composer\\ComposerHook::postInstall",
+            "./amaker start",
+            "@import-database"
+        ],
+        "import-database": "VrsMedia\\Composer\\ComposerHook::importDatabase"
+    },
+
+    "extra": {
+        "build-file": "build.xml",
+        "packages": [
+            {
+                "name": "vrsmedia/amak-frontend",
+                "link": "app/www/amak-frontend"
+            },
+
+            {
+                "name": "vrsmedia/amak-source",
+                "link": "app/www/amak-source"
+            },
+
+            {
+                "name": "vrsmedia/amak-cms",
+                "link": "app/www/amak-cms"
+            }
+        ]
+    }
+}

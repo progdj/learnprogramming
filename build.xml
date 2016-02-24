@@ -1,0 +1,77 @@
+<?xml version="1.0"  encoding="UTF-8" ?>
+
+<project name="Amak-Docker" basedir="." default="help">
+
+    <property file="build.properties"/>
+
+    <target name="help" description="Displays this help page">
+        <exec command="${cmd.help}" passthru="true"/>
+    </target>
+
+
+
+
+    <target name="migrate-frontend" description="Executes the Yiic migrate command in AMAK Frontend" depends="start">
+        <exec command="${cmd.migrate.frontend}" passthru="true"/>
+    </target>
+
+
+
+
+    <target name="update-frontend" description="Executes a composer update in AMAK Frontend" depends="start">
+        <exec command="${cmd.update.frontend}" passthru="true"/>
+    </target>
+
+    <target name="update-cms" description="Executes a composer update in AMAK CMS" depends="start">
+        <exec command="${cmd.update.cms}" passthru="true"/>
+    </target>
+
+    <target name="update-source" description="Executes a composer update in AMAK Source" depends="start">
+        <exec command="${cmd.update.source}" passthru="true"/>
+    </target>
+
+
+
+
+    <target name="init-frontend" description="Initialises AMAK Frontend (Composer, npm, grunt)" depends="start">
+        <exec command="${cmd.update.frontend}" passthru="true"/>
+        <exec command="${cmd.npm.frontend}" passthru="true"/>
+        <exec command="${cmd.grunt.frontend}" passthru="true"/>
+    </target>
+
+
+    <target name="init-all" description="Initialises the whole application" depends="start">
+        <phingcall target="update-source"/>
+        <phingcall target="update-cms"/>
+        <phingcall target="init-frontend"/>
+    </target>
+
+    <target name="set-permissions" description="Sets default permissions on the project files">
+        <exec command="${cmd.permissions.httpd}" passthru="true" />
+    </target>
+
+    <target name="repair" description="Resets the configuration files">
+        <phingcall target="set-permissions"/>
+        <exec command="${cmd.start.app}" passthru="true"/>
+    </target>
+
+
+    <target name="login" description="Attaches the terminal to the httpd container" depends="start">
+        <exec command="${cmd.login.httpd}" passthru="true"/>
+    </target>
+
+
+    <target name="start" description="Builds the containers if they are not build yet and eventually starts them">
+        <exec command="docker-compose up -d" passthru="true"/>
+        <phingcall target="set-permissions"/>
+    </target>
+
+    <target name="stop" description="Stops the containers">
+        <exec command="docker-compose stop" passthru="true"/>
+    </target>
+
+    <target name="rebuild" description="Builds the containers from scratch">
+        <exec command="docker-compose build --force-rm --no-cache" passthru="true"/>
+    </target>
+
+</project>

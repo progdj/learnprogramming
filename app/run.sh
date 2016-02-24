@@ -25,14 +25,6 @@ if [ -d $AMAK_DIR_CONFIG ]; then
     chmod 777 -R $AMAK_DIR_PROJECT/assets/
     
     echo Done.
-else
-    >&2 echo ERROR: No project files found!
-    >&2 echo NOTICE: Copying default page with further instructions
-
-    mkdir -p /var/www/amak-frontend/img > /dev/null
-    cp /default/* /var/www/amak-frontend
-    cp /default/img/* /var/www/amak-frontend/img
-    
 fi
 
 

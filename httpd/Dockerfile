@@ -64,8 +64,13 @@ ADD php.ini /etc/php5/apache2/php.ini
 RUN curl getcomposer.org/composer.phar > /usr/bin/composer
 RUN chmod +x /usr/bin/composer
 
+# Install grunt
+RUN npm install -g grunt-cli
+
 ADD run.sh /run.sh
+RUN chmod +x /run.sh
 
 EXPOSE 80
 
-CMD ["/bin/bash", "run.sh"]
+WORKDIR "/var/www"
+CMD "/run.sh"
