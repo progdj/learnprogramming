@@ -2,14 +2,12 @@
 
 <project name="Amak-Docker" basedir="." default="help">
 
+    <property file="private.properties"/>
     <property file="build.properties"/>
 
     <target name="help" description="Displays this help page">
         <exec command="${cmd.help}" passthru="true"/>
     </target>
-
-
-
 
     <target name="migrate-frontend" description="Executes the Yiic migrate command in AMAK Frontend" depends="start">
         <exec command="${cmd.migrate.frontend}" passthru="true"/>

@@ -116,12 +116,12 @@ class YamlConfigurationGenerator
     private function generateAppConfiguration()
     {
         $volumes = $this->generateVolumeList($this->configuration->getVolumeMounts());
-
+        $prefix = $this->configuration->getPrefix();
         return <<<CONFIG
 # This container serves as a pure data container
 app:
   build: app/
-  container_name: amak-app
+  container_name: $prefix-app
   volumes:
 $volumes
 
@@ -135,12 +135,12 @@ CONFIG;
     {
         $port   = $this->configuration->getDatabasePort();
         $dbPort = $this->generatePortInstruction($port, 3306);
-
+        $prefix = $this->configuration->getPrefix();
         return <<<CONFIG
 # Percona database
 db:
   build: db/
-  container_name: amak-db
+  container_name: $prefix-db
   ports:
 $dbPort
   environment:
@@ -154,12 +154,13 @@ CONFIG;
     {
         $port      = $this->configuration->getHttpdPort();
         $httpdPort = $this->generatePortInstruction($port, 80);
+        $prefix = $this->configuration->getPrefix();
 
         return <<<CONFIG
 # Apache2 httpd
 httpd:
   build: httpd/
-  container_name: amak-httpd
+  container_name: $prefix-httpd
   ports:
 $httpdPort
   links:

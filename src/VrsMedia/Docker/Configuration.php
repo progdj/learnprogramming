@@ -22,6 +22,11 @@ class Configuration
     private $databasePort = 3306;
 
     /**
+     * @var string
+     */
+    private $prefix = 'amak';
+
+    /**
      * @return VolumeMount[]
      */
     public function getVolumeMounts()
@@ -69,4 +74,35 @@ class Configuration
         $this->databasePort = $databasePort;
     }
 
+    /**
+     * @return VolumeMount[]
+     */
+    public function getMounts()
+    {
+        return $this->mounts;
+    }
+
+    /**
+     * @param VolumeMount[] $mounts
+     */
+    public function setMounts($mounts)
+    {
+        $this->mounts = $mounts;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
+
+    /**
+     * @param string $prefix
+     */
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+    }
 }

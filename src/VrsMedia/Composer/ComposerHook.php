@@ -223,6 +223,7 @@ class ComposerHook
         $output    = $generator->generate();
 
         file_put_contents($outputFile, $output);
+        file_put_contents($this->rootDirectory . '/private.properties', "docker.prefix=" . $configuration->getPrefix());
     }
 
     /**
@@ -242,6 +243,8 @@ class ComposerHook
             $httpdPort = $io->ask('Webserver ('. $httpdPort .'): ', $httpdPort);
 
         }
+
+        $configuration->setPrefix($io->ask('Please supply the default container prefix? (amak)', 'amak'));
 
         $configuration->setDatabasePort($dbPort);
         $configuration->setHttpdPort($httpdPort);
