@@ -9,18 +9,25 @@ class PackageDefinition
     /**
      * @var string
      */
-    private $name, $link;
+    private $name, $target;
+
+    /**
+     * @var bool
+     */
+    private $required;
 
     /**
      * PackageDefinition constructor.
      *
      * @param string $name
-     * @param string $link
+     * @param string $target
+     * @param bool $required
      */
-    public function __construct($name, $link)
+    public function __construct($name, $target, $required)
     {
         $this->name      = $name;
-        $this->link      = $link;
+        $this->target      = $target;
+        $this->required  = $required;
     }
 
     /**
@@ -34,9 +41,16 @@ class PackageDefinition
     /**
      * @return string
      */
-    public function getLink()
+    public function getTarget()
     {
-        return $this->link;
+        return $this->target;
     }
 
+    /**
+     * @return bool
+     */
+    public function isRequired()
+    {
+        return $this->required;
+    }
 }

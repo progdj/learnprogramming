@@ -98,8 +98,7 @@ class ComposerHook
     {
         $hook = new self($event);
         $hook->printHeader();
-        $hook->linkPackages();
-        $hook->generateDockerConfiguration();
+        $hook->generateDockerConfiguration($hook->resolvePackages());
         $hook->makeAmakerExecutable();
     }
 
@@ -112,11 +111,17 @@ class ComposerHook
 
         $io->write('Please specify the source AMAK database.');
 
+        $dockerhost = '127.0.0.1';
+        if (getenv('DOCKER_HOST'))
+        {
+            preg_match('|(\d+\.\d+\.\d+\.\d+)|', getenv('DOCKER_HOST'), $matches);
+            $dockerhost = $matches[0];
+        }
         $sourceParams = [
-            'host'     => $io->ask('Host (78.137.101.52): ', '78.137.101.52'),
-            'dbname'   => $io->ask('Database (amak_beta): ', 'amak_beta'),
-            'user'     => $io->ask('User (amakadmin):', 'amakadmin'),
-            'password' => $io->ask('Password (Generic78): ', 'Generic78'),
+            'host'     => $io->ask('Host ('. $dockerhost .'): ', $dockerhost),
+            'dbname'   => $io->ask('Database (amak): ', 'amak'),
+            'user'     => $io->ask('User (root):', 'root'),
+            'password' => $io->ask('Password (root): ', 'root'),
             'driver'   => 'pdo_mysql',
         ];
 
@@ -158,14 +163,16 @@ class ComposerHook
     }
 
     /**
-     * Symlinks the required packages
+     * Resolves the required packages
+     *
+     * @return VolumeMount[]
      */
-    private function linkPackages()
+    private function resolvePackages()
     {
-        $linker = new PackageLinker($this->getIO());
+        $resolver = new PackageResolver($this->getIO());
 
         $packages = $this->parameters->getPackages();
-        $linker->linkPackages($packages, $this->rootDirectory);
+        return $resolver->resolvePackages($packages, $this->rootDirectory);
     }
 
     /**
@@ -178,12 +185,17 @@ class ComposerHook
 
     /**
      * Generate the docker-compose.yaml
+     * @param VolumeMount[] $mounts
      */
-    private function generateDockerConfiguration()
+    private function generateDockerConfiguration(array $mounts)
     {
         $outputFile = $this->rootDirectory . '/docker-compose.yml';
 
         $configuration = $this->getDockerConfiguration();
+        foreach ($mounts as $mount)
+        {
+            $configuration->addVolumeMount($mount);
+        }
 
         $generator = new YamlConfigurationGenerator($configuration);
         $output    = $generator->generate();
@@ -207,25 +219,6 @@ class ComposerHook
         $configuration->setDatabasePort($dbPort);
         $configuration->setHttpdPort($httpdPort);
 
-        $this->definePackagesAsConfigurationMount($configuration);
-
         return $configuration;
     }
-
-    /**
-     * @param Configuration $configuration
-     */
-    private function definePackagesAsConfigurationMount(Configuration $configuration)
-    {
-        foreach ($this->parameters->getPackages() as $package)
-        {
-            $source   = $this->rootDirectory . '/' . $package->getLink();
-            $basename = basename($source);
-            $target   = '/var/www/' . $basename;
-
-            $mount = new VolumeMount($source, $target);
-            $configuration->addVolumeMount($mount);
-        }
-    }
-
 }

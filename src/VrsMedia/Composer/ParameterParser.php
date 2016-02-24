@@ -12,7 +12,8 @@ class ParameterParser
     const PACKAGES   = 'packages';
 
     const PACKAGE_NAME = 'name';
-    const PACKAGE_LINK = 'link';
+    const PACKAGE_TARGET = 'target';
+    const PACKAGE_REQUIRED = 'required';
 
     /**
      * @param array $extraOptions
@@ -41,9 +42,10 @@ class ParameterParser
         foreach ($extraOptions[self::PACKAGES] as $package)
         {
             $name = $package[self::PACKAGE_NAME];
-            $link = $package[self::PACKAGE_LINK];
+            $link = $package[self::PACKAGE_TARGET];
+            $required = isset($package[self::PACKAGE_REQUIRED]) ? $package[self::PACKAGE_REQUIRED] : false;
 
-            $packages[] = new PackageDefinition($name, $link);
+            $packages[] = new PackageDefinition($name, $link, $required);
         }
 
         return $packages;
@@ -112,7 +114,7 @@ class ParameterParser
     {
         return isset(
             $package[self::PACKAGE_NAME],
-            $package[self::PACKAGE_LINK]
+            $package[self::PACKAGE_TARGET]
         );
     }
 

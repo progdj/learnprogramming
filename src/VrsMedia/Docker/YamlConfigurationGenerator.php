@@ -87,11 +87,27 @@ class YamlConfigurationGenerator
      */
     private function generateVolumeInstruction(VolumeMount $mount)
     {
-        $source = $mount->getSourceDirectory();
+        $source = $this->getSourceVolumePath($mount->getSourceDirectory());
         $target = $mount->getTargetDirectory();
         $volume = sprintf("    - %s:%s", $source, $target);
 
         return $volume;
+    }
+
+    /**
+     * Returns the plattform specific mount point.
+     *
+     * @param string $realpath
+     * @return string
+     */
+    private function getSourceVolumePath($realpath)
+    {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+        {
+            $drive = strtolower(substr($realpath, 0, 1));
+            return sprintf('//host%s/%s', $drive, str_replace("\\", '/', substr($realpath, 3)));
+        }
+        return $realpath;
     }
 
     /**
