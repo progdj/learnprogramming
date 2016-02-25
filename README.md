@@ -117,3 +117,9 @@ mount -t vboxsf -o uid=1000,gid=50 D /hostd
 
 - Execute that file by running `/var/lib/boot2docker/bootsync.sh`, there should be no errors!
 - Now run `composer install` inside your `amak-docker` directory.
+
+### Setup Container
+
+- please run `./amaker compose-config`
+- now run `./amaker init-frontend` or even `./amaker init-all`. 
+

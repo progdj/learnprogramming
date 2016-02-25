@@ -9,10 +9,6 @@ use Doctrine\Common\Cache\VoidCache;
 use Doctrine\DBAL\DriverManager;
 use VrsMedia\Database\ProgressPrinter;
 use VrsMedia\Database\TransferService;
-use VrsMedia\Docker\Configuration;
-use VrsMedia\Docker\VolumeMount;
-use VrsMedia\Docker\YamlConfigurationGenerator;
-use VrsMedia\Phing\UsagePrinter;
 
 class ComposerHook
 {
@@ -21,15 +17,6 @@ class ComposerHook
      */
     private $event;
 
-    /**
-     * @var string
-     */
-    private $rootDirectory;
-
-    /**
-     * @var ParameterDefinition
-     */
-    private $parameters;
 
     /**
      * ComposerHook constructor.
@@ -38,91 +25,19 @@ class ComposerHook
      */
     public function __construct(Event $event)
     {
-        $this->event         = $event;
-        $this->rootDirectory = $this->getRootDirectory();
-        $this->parameters    = $this->getParameterDefinition();
+        $this->event = $event;
     }
 
-    /**
-     * Return the absolute path of the projects root directory
-     *
-     * @return string
-     */
-    private function getRootDirectory()
-    {
-        $cwd    = getcwd();
-        $config = '/composer.json';
-
-        if (!file_exists($cwd . $config))
-        {
-            throw new \RuntimeException('FATAL: Could not find root directory');
-        }
-
-        return $cwd;
-    }
-
-    /**
-     * @return ParameterDefinition
-     */
-    private function getParameterDefinition()
-    {
-        $parser = new ParameterParser();
-        $extra  = $this->getExtraOptions();
-
-        return $parser->parse($extra);
-    }
-
-    /**
-     * @return array
-     */
-    private function getExtraOptions()
-    {
-        $package = $this->event->getComposer()->getPackage();
-        $extra   = $package->getExtra();
-
-        return $extra;
-    }
-
-    private function printHeader()
-    {
-        $this->getIO()->write('VRS Media GmbH & Co. KG');
-        $this->getIO()->write('=======================');
-        $this->getIO()->write('AMAKER Installation');
-        $this->getIO()->write('This tool aims at providing an easy to use interface to the docker application');
-    }
 
     /**
      * @param Event $event
      */
     public static function postInstall(Event $event)
     {
-        $hook = new self($event);
-        $hook->printHeader();
-        $hook->generateDockerConfiguration($hook->resolvePackages());
-        $hook->makeAmakerExecutable();
+        // $hook = new self($event);
+        $event->getIO()->write('Please run ./amaker now!');
     }
 
-    /**
-     * @param Event $event
-     */
-    public static function startContainer(Event $event)
-    {
-        $hook = new self($event);
-        if ($event->getIO()->askConfirmation('Do you want to start the containers now?  (yes)', true))
-        {
-            $hook->amaker('start');
-        }
-    }
-
-    /**
-     * Exectue the amaker.
-     *
-     * @param string $command
-     */
-    private function amaker($command)
-    {
-        passthru(sprintf('%s/amaker %s', getcwd(), $command));
-    }
 
     /**
      * Import the database
@@ -175,27 +90,6 @@ class ComposerHook
         $service->transferDatabase();
     }
 
-    /**
-     * Does a chmod on the amaker tool
-     */
-    private function makeAmakerExecutable()
-    {
-        $amaker = $this->rootDirectory . '/amaker';
-        chmod($amaker, 0777);
-    }
-
-    /**
-     * Resolves the required packages
-     *
-     * @return VolumeMount[]
-     */
-    private function resolvePackages()
-    {
-        $resolver = new PackageResolver($this->getIO());
-
-        $packages = $this->parameters->getPackages();
-        return $resolver->resolvePackages($packages, $this->rootDirectory);
-    }
 
     /**
      * @return IOInterface
@@ -203,52 +97,5 @@ class ComposerHook
     private function getIO()
     {
         return $this->event->getIO();
-    }
-
-    /**
-     * Generate the docker-compose.yaml
-     * @param VolumeMount[] $mounts
-     */
-    private function generateDockerConfiguration(array $mounts)
-    {
-        $outputFile = $this->rootDirectory . '/docker-compose.yml';
-
-        $configuration = $this->getDockerConfiguration();
-        foreach ($mounts as $mount)
-        {
-            $configuration->addVolumeMount($mount);
-        }
-
-        $generator = new YamlConfigurationGenerator($configuration);
-        $output    = $generator->generate();
-
-        file_put_contents($outputFile, $output);
-        file_put_contents($this->rootDirectory . '/private.properties', "docker.prefix=" . $configuration->getPrefix());
-    }
-
-    /**
-     * @return Configuration
-     */
-    private function getDockerConfiguration()
-    {
-        $configuration = new Configuration();
-
-        $io = $this->getIO();
-        $dbPort = 3306;
-        $httpdPort = 80;
-        if ($io->askConfirmation('Do you want to change the default exposed application ports? (no)', false))
-        {
-            $io->write('Please specify the ports on which the application should be binded to');
-            $dbPort    = $io->ask('Database ('. $dbPort .'): ', $dbPort);
-            $httpdPort = $io->ask('Webserver ('. $httpdPort .'): ', $httpdPort);
-
-        }
-
-        $configuration->setPrefix($io->ask('Please supply the default container prefix? (amak)', 'amak'));
-
-        $configuration->setDatabasePort($dbPort);
-        $configuration->setHttpdPort($httpdPort);
-
-        return $configuration;
     }
 }

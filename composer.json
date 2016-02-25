@@ -33,12 +33,8 @@
 
     "scripts": {
         "post-install-cmd": [
-            "VrsMedia\\Composer\\ComposerHook::postInstall",
-            "@start-container",
-            "@import-database"
-        ],
-        "start-container": "VrsMedia\\Composer\\ComposerHook::startContainer",
-        "import-database": "VrsMedia\\Composer\\ComposerHook::importDatabase"
+            "VrsMedia\\Composer\\ComposerHook::postInstall"
+        ]
     },
 
     "extra": {
@@ -65,5 +61,7 @@
                 "target": "/var/www/amak-portal"
             }
         ]
-    }
+    },
+
+    "bin": ["bin-dist/amaker"]
 }
