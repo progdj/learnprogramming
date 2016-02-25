@@ -94,32 +94,9 @@ class Standalone extends Application
         $commands = parent::getDefaultCommands();
 
         $phingCommands = new PhingCommandFactory(AMAKER_HOME . '/build.xml', AMAKER_HOME . '/bin/phing');
-        $commands += $phingCommands->getCommands();
+        $commands = array_merge($phingCommands->getCommands(), $commands);
 
         $commands[] = new ComposeConfigureCommand();
-
-//        $commands[] = new Command\AboutCommand();
-//        $commands[] = new Command\ConfigCommand();
-//        $commands[] = new Command\DependsCommand();
-//        $commands[] = new Command\InitCommand();
-//        $commands[] = new Command\InstallCommand();
-//        $commands[] = new Command\CreateProjectCommand();
-//        $commands[] = new Command\UpdateCommand();
-//        $commands[] = new Command\SearchCommand();
-//        $commands[] = new Command\ValidateCommand();
-//        $commands[] = new Command\ShowCommand();
-//        $commands[] = new Command\SuggestsCommand();
-//        $commands[] = new Command\RequireCommand();
-//        $commands[] = new Command\DumpAutoloadCommand();
-//        $commands[] = new Command\StatusCommand();
-//        $commands[] = new Command\ArchiveCommand();
-//        $commands[] = new Command\DiagnoseCommand();
-//        $commands[] = new Command\RunScriptCommand();
-//        $commands[] = new Command\LicensesCommand();
-//        $commands[] = new Command\GlobalCommand();
-//        $commands[] = new Command\ClearCacheCommand();
-//        $commands[] = new Command\RemoveCommand();
-//        $commands[] = new Command\HomeCommand();
 
 
         return $commands;

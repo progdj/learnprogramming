@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+
+define('AMAKER_HOME', realpath(dirname(__FILE__)));
+
+require_once AMAKER_HOME . '/vendor/autoload.php';
+
+$application = new \VrsMedia\Composer\Standalone();
+$application->run();
