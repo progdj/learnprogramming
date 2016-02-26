@@ -54,6 +54,19 @@ mount -t vboxsf -o uid=1000,gid=50 D /hostd
 - First run `composer install`, followed by `./amaker compose-config`
 - now run `./amaker init-frontend` or even `./amaker init-all`. 
 
+
+### Specials
+
+- Our docker supports `automatic vhost extensions` for each `licensholder child` on `amak-frontend` and `amak-portal`.
+  - Add a config directory under `httpd/config` and place the files `frontend.properties` or `portal.properties`.
+  - You can create a line for each `licenseholder child`.
+    - Syntax is: `ChildId;vhostAlias1 VHostAlias2`.
+    - **The file must end with one blank line!**
+  - Restart the httpd container. 
+- Each licenseholder child has one default alias named `frontend-[CHILDiD]`.
+- Each `domain` and `portal` has one default alias named `[domain|portal].local`.
+  - Values for `domain` and `portal` will be used from db!  
+
 ## Installation
 ### 1. Install Docker Toolbox
 When using OS X: additionally install [Docker Machine NFS](https://github.com/adlogix/docker-machine-nfs)
