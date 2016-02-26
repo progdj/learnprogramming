@@ -134,9 +134,10 @@ CONFIG;
     private function generateDatabaseConfiguration()
     {
         $port   = $this->configuration->getDatabasePort();
+        $dataPath = $this->configuration->getMysqlDataDir();
         $dbPort = $this->generatePortInstruction($port, 3306);
         $prefix = $this->configuration->getPrefix();
-        return <<<CONFIG
+        $config = <<<CONFIG
 # Percona database
 db:
   build: db/
@@ -148,6 +149,14 @@ $dbPort
     - MYSQL_DATABASE=amak
 
 CONFIG;
+        if ($dataPath)
+        {
+            $config .= <<<CONFIG
+  volumes:
+    - $dataPath:/var/lib/mysql
+CONFIG;
+        }
+        return $config . PHP_EOL;
     }
 
     private function generateHttpdConfiguration()

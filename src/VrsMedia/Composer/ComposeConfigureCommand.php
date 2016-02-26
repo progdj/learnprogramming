@@ -82,6 +82,11 @@ class ComposeConfigureCommand extends Command
 
         }
 
+        if ($this->getApplication()->getIO()->askConfirmation('Create persistent mysql data mount? (no)', false))
+        {
+            $configuration->setMysqlDataDir($this->getApplication()->getIO()->ask('Where to store the mysql files? (/.db/mysql)', './db/mysql'));
+        }
+
         $configuration->setPrefix($this->getApplication()->getIO()->ask('Please supply the default container prefix? (amak)', 'amak'));
 
         $configuration->setDatabasePort($dbPort);

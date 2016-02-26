@@ -27,6 +27,11 @@ class Configuration
     private $prefix = 'amak';
 
     /**
+     * @var string
+     */
+    private $mysqlDataDir = '';
+
+    /**
      * @return VolumeMount[]
      */
     public function getVolumeMounts()
@@ -105,4 +110,22 @@ class Configuration
     {
         $this->prefix = $prefix;
     }
+
+    /**
+     * @return string
+     */
+    public function getMysqlDataDir()
+    {
+        return $this->mysqlDataDir;
+    }
+
+    /**
+     * @param string $mysqlDataDir
+     */
+    public function setMysqlDataDir($mysqlDataDir)
+    {
+        $this->mysqlDataDir = $mysqlDataDir;
+    }
+
+
 }
