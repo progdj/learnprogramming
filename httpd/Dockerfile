@@ -11,7 +11,7 @@ RUN apt-add-repository ppa:ondrej/php5-5.6
 # packages
 RUN apt-get -y update 
 
-# packages
+# php
 RUN apt-get -y install \
   apache2 \
   libapache2-mod-php5 \
@@ -42,23 +42,6 @@ RUN \
 RUN apt-get -y update 
 RUN apt-get -y install oracle-java8-installer
 
-# Enable apache mods
-RUN a2enmod php5 && a2enmod rewrite && a2enmod headers && a2enmod proxy_http && a2enmod deflate && a2enmod proxy_connect
-
-# Error reporting
-RUN sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php5/apache2/php.ini
-
-# Add PDFLib extension
-ADD php_pdflib.so /php_pdflib.so
-
-# Add ICC profiles
-ADD ISOnewspaper26v4.icc /icc_profiles/
-ADD ISOnewspaper26v4_gr.icc /icc_profiles/
-
-# Overwrite configurations
-ADD apache.conf /etc/apache2/apache2.conf
-ADD vhosts.conf /etc/apache2/sites-enabled/000-default.conf
-ADD php.ini /etc/php5/apache2/php.ini
 
 # Install composer
 RUN curl getcomposer.org/composer.phar > /usr/bin/composer
@@ -66,6 +49,41 @@ RUN chmod +x /usr/bin/composer
 
 # Install grunt
 RUN npm install -g grunt-cli
+
+# Enable apache mods
+RUN a2enmod php5 && \
+    a2enmod rewrite && \
+    a2enmod headers && \
+    a2enmod proxy_http && \
+    a2enmod deflate && \
+    a2enmod proxy_connect && \
+    a2enmod macro
+
+# Error reporting
+RUN sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php5/apache2/php.ini
+
+# Add PHP extensions
+ADD php_ext /php_ext
+
+# Add ICC profiles
+ADD icc_profiles /icc_profiles
+
+# Apache Configuration
+ADD apache/apache.conf /etc/apache2/apache2.conf
+ADD apache/macros /etc/apache2/macros
+ADD apache/sites-available /etc/apache2/sites-available
+
+RUN a2dissite 000-default && \
+    a2ensite 01-amak-frontend && \
+    a2ensite 02-amak-cms && \
+    a2ensite 03-amak-assets && \
+    a2ensite 04-amak-cdn && \
+    a2ensite 05-amak-portal
+
+RUN apache2ctl configtest
+ADD php.ini /etc/php5/apache2/php.ini
+
+
 
 ADD run.sh /run.sh
 RUN chmod +x /run.sh
