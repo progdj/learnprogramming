@@ -1,0 +1,91 @@
+### Windows ###
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+
+### Linux ###
+*~
+
+# temporary files which can be created if a process still has a handle open of a deleted file
+.fuse_hidden*
+
+# KDE directory preferences
+.directory
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+
+
+### OSX ###
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+
+# base ignores
+A0*_* # checked in branches
+A0*-* # checked in branches
+node_modules #node modules, handled by npm
+*.log
+protected/runtime # runtime information of yii
+assets # yii asset compile dir
+vendor # composer Abhängigkeiten
+data/**/ads #lh data nfs
+data/**/graphics #lh data nfs
+data/**/export #lh data nfs
+data/**/pdf #lh data nfs
+data/**/upload_images #lh data nfs
+data/**/upload_pdf #lh data nfs
+
+# /
+/.idea
+/vendor
+/composer.lock
+/docker-compose.yml
+/bin
+/paths.json
+/private.properties
+
+# /db/
+/db/mysql
+
+# /httpd/
+/httpd/config
