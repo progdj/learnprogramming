@@ -47,11 +47,24 @@ class ComposeConfigureCommand extends Command
             $configuration->addVolumeMount($mount);
         }
 
+        $this->addDefaultConfigurationShare($configuration);
+
         $generator = new YamlConfigurationGenerator($configuration);
         $output    = $generator->generate();
 
         file_put_contents($outputFile, $output);
         file_put_contents(AMAKER_HOME . '/private.properties', "docker.prefix=" . $configuration->getPrefix());
+    }
+
+
+    private function addDefaultConfigurationShare(Configuration $configuration)
+    {
+        $source = AMAKER_HOME . '/httpd/config/';
+        if (!is_dir($source))
+        {
+            mkdir($source, 0777, true);
+        }
+        $configuration->addVolumeMount(new VolumeMount(realpath($source), '/config/'));
     }
 
 

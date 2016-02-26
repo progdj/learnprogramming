@@ -83,12 +83,11 @@ RUN a2dissite 000-default && \
 RUN apache2ctl configtest
 ADD php.ini /etc/php5/apache2/php.ini
 
-
-
-ADD run.sh /run.sh
-RUN chmod +x /run.sh
+# setup scripts
+ADD scripts /scripts
+RUN chmod +x -R /scripts/
 
 EXPOSE 80
 
 WORKDIR "/var/www"
-CMD "/run.sh"
+CMD "/scripts/run.sh"
