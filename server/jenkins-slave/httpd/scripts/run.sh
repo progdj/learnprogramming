@@ -35,6 +35,10 @@ if [ -d /var/www/amak-cms ]; then
     sudo -u www-data -g www-data touch /var/www/amak-cms/protected/runtime/php-error.log
     sudo -u www-data -g www-data touch /var/www/amak-cms/protected/runtime/error.log
 
+    if [ -f /amak-config/cms.domains.properties ]; then
+        cmsAlias=`cat /amak-config/cms.domains.properties`
+        echo -n "ServerAlias $cmsAlias"  > /etc/apache2/cms-domains.conf
+    fi;
     a2ensite 02-amak-cms
 else
     echo "Package amak-cms is not existing, will not perform automatic configuration.";
@@ -43,6 +47,10 @@ fi
 
 # amak source
 if [ -d /var/www/amak-source ]; then
+    if [ -f /amak-config/cdn.domains.properties ]; then
+        cdnAlias=`cat /amak-config/cdn.domains.properties`
+        echo -n "ServerAlias $cdnAlias"  > /etc/apache2/cdn-domains.conf
+    fi;
     a2ensite 03-amak-assets
     a2ensite 04-amak-cdn
 else
