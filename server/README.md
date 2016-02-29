@@ -7,7 +7,16 @@ Welcome to the AMAK Docker Server Environment. Here you'll find our setup for pr
 
 ## Jenkins Slave
 
-### HowTo: create a docker server image
+## Requirements
+
+- A slave should be configured to host a home for user `jenkins`.
+- A slave must host a docker service. https://docs.docker.com/engine/installation/linux/
+- At jenkins home should be a checkout from `amak-docker` with a symlink named `slave` pointing to checkout `server/jenkins-slave`.
+ - like `lrwxrwxrwx 1 jenkins jenkins   47 Feb 29 22:57 slave -> /home/jenkins/amak-docker/server/jenkins-slave/`
+- The user jenkins must have a valid ssh configuration.
+- Follow `docker-build.sh` and `environments/README.md` to follow the ci process. 
+
+### HowTo: create a docker server image (bloody by hand)
 
 - A image can be used to create a running container and might get shared on a hub.
 - You'll need all current packages. (`amak-frontend`, `amak-source`, `amak-portal`, `amak-cms`)
@@ -23,7 +32,7 @@ Welcome to the AMAK Docker Server Environment. Here you'll find our setup for pr
 - Change `your-docker-image-tag` to a tag name, just like `amak-nrc-2016-02-19-1200`…
 - Your image is ready to use now.
 
-### HowTo: use a server image
+### HowTo: use a server image (bloody by hand)
 
 - Next step is to create a running container out of the created image.
 - First we need to know what requirements our image has:
