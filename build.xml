@@ -41,20 +41,26 @@
     </target>
 
 
+    <target name="init-source" description="Initialises AMAK Source (Composer, npm, grunt)" depends="start">
+        <exec command="${cmd.update.source}" passthru="true"/>
+        <exec command="${cmd.npm.source}" passthru="true"/>
+        <exec command="${cmd.grunt.source}" passthru="true"/>
+    </target>
+
+    <target name="init-cms" description="Initialises AMAK CMS (Composer, npm, grunt)" depends="start">
+        <exec command="${cmd.update.cms}" passthru="true"/>
+        <exec command="${cmd.npm.cms}" passthru="true"/>
+        <exec command="${cmd.grunt.cms}" passthru="true"/>
+    </target>
+
     <target name="init-all" description="Initialises the whole application" depends="start">
         <phingcall target="update-source"/>
         <phingcall target="update-cms"/>
         <phingcall target="init-frontend"/>
     </target>
 
-    <target name="set-permissions" description="Sets default permissions on the project files">
-        <exec command="${cmd.permissions.frontend}" passthru="true" />
-        <exec command="${cmd.permissions.cms}" passthru="true" />
-        <exec command="${cmd.permissions.portal}" passthru="true" />
-    </target>
 
     <target name="repair" description="Resets the configuration files">
-        <phingcall target="set-permissions"/>
         <exec command="${cmd.start.app}" passthru="true"/>
     </target>
 
@@ -66,7 +72,6 @@
 
     <target name="start" description="Builds the containers if they are not build yet and eventually starts them">
         <exec command="docker-compose up -d" passthru="true"/>
-        <phingcall target="set-permissions"/>
         <phingcall target="config-frontend"/>
         <phingcall target="config-cms"/>
     </target>

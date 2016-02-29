@@ -73,12 +73,7 @@ ADD apache/apache.conf /etc/apache2/apache2.conf
 ADD apache/macros /etc/apache2/macros
 ADD apache/sites-available /etc/apache2/sites-available
 
-RUN a2dissite 000-default && \
-    a2ensite 01-amak-frontend && \
-    a2ensite 02-amak-cms && \
-    a2ensite 03-amak-assets && \
-    a2ensite 04-amak-cdn && \
-    a2ensite 05-amak-portal
+RUN a2dissite 000-default
 
 RUN apache2ctl configtest
 ADD php.ini /etc/php5/apache2/php.ini

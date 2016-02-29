@@ -11,6 +11,11 @@ if [ -d /var/www/amak-frontend ]; then
     # apply configuration
     cd /var/www/amak-frontend;
     vendor/bin/phing config;
+
+    # prepare logging
+    sudo -u www-data -g www-data touch /var/www/amak-frontend/protected/runtime/php-error.log
+    sudo -u www-data -g www-data touch /var/www/amak-frontend/protected/runtime/error.log
+
     # prepare dynamic vhosts for amak-frontend
     frontendvhosts=`/scripts/package-macro-vhosts.sh frontend /var/www/amak-frontend /amak-config .production`
     echo -e "$frontendvhosts" > /etc/apache2/sites-available/01-amak-frontend.conf
@@ -25,6 +30,11 @@ if [ -d /var/www/amak-cms ]; then
     # apply configuration
     cd /var/www/amak-cms;
     vendor/bin/phing config;
+
+    #prepare logging
+    sudo -u www-data -g www-data touch /var/www/amak-cms/protected/runtime/php-error.log
+    sudo -u www-data -g www-data touch /var/www/amak-cms/protected/runtime/error.log
+
     a2ensite 02-amak-cms
 else
     echo "Package amak-cms is not existing, will not perform automatic configuration.";
@@ -45,6 +55,11 @@ if [ -d /var/www/amak-portal ]; then
     # apply configuration
     cd /var/www/amak-portal;
     vendor/bin/phing config;
+
+    #prepare logging
+    sudo -u www-data -g www-data touch /var/www/amak-portal/protected/runtime/php-error.log
+    sudo -u www-data -g www-data touch /var/www/amak-portal/protected/runtime/error.log
+
     # prepare dynamic vhosts for amak-portal
     portalvhosts=`/scripts/package-macro-vhosts.sh portal /var/www/amak-portal /amak-config .production`;
     echo -e "$portalvhosts" > /etc/apache2/sites-available/05-amak-portal.conf
@@ -57,5 +72,24 @@ fi
 # Start apache and tail the error log in the background
 source /etc/apache2/envvars
 rm -f /var/run/apache2/apache2.pid
-tail -F /var/log/apache2/error.log | cut -d" " -f 11- | grep PHP >&2 &
+
+touch /var/log/apache2/error.log;
+tail -F /var/log/apache2/error.log >&2 &
+
+if [ -d /var/www/amak-frontend ]; then
+    tail -F /var/www/amak-frontend/protected/runtime/php-error.log >&2 &
+    tail -F /var/www/amak-frontend/protected/runtime/error.log >&2 &
+fi;
+
+if [ -d /var/www/amak-portal ]; then
+    tail -F /var/www/amak-portal/protected/runtime/php-error.log >&2 &
+    tail -F /var/www/amak-portal/protected/runtime/error.log >&2 &
+fi;
+
+if [ -d /var/www/amak-cms ]; then
+    tail -F /var/www/amak-cms/protected/runtime/php-error.log >&2 &
+    tail -F /var/www/amak-cms/protected/runtime/error.log >&2 &
+fi;
+
+
 exec apache2 -D FOREGROUND
