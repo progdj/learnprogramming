@@ -14,11 +14,6 @@ domainConfigPath=$3
 maindomainSuffix=$4
 
 
-if [ ! -f $domainConfigPath/$package.properties ]; then
-    echo "Apache VHosts: You could supply a file at $domainConfigPath/$package.properties to enable automatic vhost alias for '$package'.";
-    exit 1
-fi
-
 function getAlias()
 {
     local line;
@@ -49,13 +44,13 @@ do
     lid=${config[2]};
     lcid=${config[3]};
     alias=$(getAlias $lcid)
-    echo "# $name";
+    echo "# $name\n";
     echo -n "Use amak-$package $domain $lid $lcid \"$alias";
     if [ "$maindomainSuffix" != "" ]; then
         echo -n " $domain$maindomainSuffix";
     fi
     echo -n "\""
-    echo ""; echo "";
+    echo ""; echo "\n\n";
 done
 
 exit 0
