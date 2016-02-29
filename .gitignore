@@ -91,5 +91,6 @@ data/**/upload_pdf #lh data nfs
 /httpd/config
 
 
+/server/jenkins-slave/environments/
 /server/jenkins-slave/httpd/packages
 *.iml

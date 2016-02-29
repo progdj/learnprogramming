@@ -13,7 +13,7 @@ if [ -d /var/www/amak-frontend ]; then
     vendor/bin/phing config;
     # prepare dynamic vhosts for amak-frontend
     frontendvhosts=`/scripts/package-macro-vhosts.sh frontend /var/www/amak-frontend /amak-config .production`
-    echo "$frontendvhosts" > /etc/apache2/sites-available/01-amak-frontend.conf
+    echo -e "$frontendvhosts" > /etc/apache2/sites-available/01-amak-frontend.conf
     a2ensite 01-amak-frontend
 else
     echo "Package amak-frontend is not existing, will not perform automatic configuration.";
@@ -21,7 +21,7 @@ else
 fi
 
 # package cms
-if [ -d /var/www/amak-source ]; then
+if [ -d /var/www/amak-cms ]; then
     # apply configuration
     cd /var/www/amak-cms;
     vendor/bin/phing config;
@@ -47,7 +47,7 @@ if [ -d /var/www/amak-portal ]; then
     vendor/bin/phing config;
     # prepare dynamic vhosts for amak-portal
     portalvhosts=`/scripts/package-macro-vhosts.sh portal /var/www/amak-portal /amak-config .production`;
-    echo "$portalvhosts" > /etc/apache2/sites-available/05-amak-portal.conf
+    echo -e "$portalvhosts" > /etc/apache2/sites-available/05-amak-portal.conf
     a2ensite 05-amak-portal
 else
     echo "Package amak-portal is not existing, will not perform automatic configuration.";

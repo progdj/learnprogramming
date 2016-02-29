@@ -13,6 +13,7 @@ packagePath=$2
 domainConfigPath=$3
 maindomainSuffix=$4
 
+
 function getAlias()
 {
     local line;
@@ -43,13 +44,13 @@ do
     lid=${config[2]};
     lcid=${config[3]};
     alias=$(getAlias $lcid)
-    echo "# $name";
+    echo "# $name\n";
     echo -n "Use amak-$package $domain $lid $lcid \"$alias";
     if [ "$maindomainSuffix" != "" ]; then
         echo -n " $domain$maindomainSuffix";
     fi
     echo -n "\""
-    echo ""; echo "";
+    echo ""; echo "\n\n";
 done
 
 exit 0
