@@ -108,5 +108,6 @@ docker run -d -v "${DATA_DIR}:/amak-data" -v "${CONFIG_FOLDER}:/amak-config" -p 
 echo "Container ${TARGET_NAME} is online and hosting build $BUILD_NUMBER from $ENVIRONMENT."
 
 echo "Starting docker clean now..."
-$(docker images -q -f dangling=true) | xargs -r docker rmi -v
+docker rm $(docker ps -q -f status=exited)
+docker rmi $(docker images -q -f "dangling=true")
 echo "all ok..."
