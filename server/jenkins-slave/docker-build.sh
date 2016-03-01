@@ -18,6 +18,7 @@ CONFIG_FILE="${CONFIG_FOLDER}/env.properties"
 ACTIVE_INSTANCE_FILE="${CONFIG_FOLDER}/active"
 
 
+
 if [ ! -f ${CONFIG_FILE} ]; then
     >&2 echo "Expected the Environment Configuration file at ${CONFIG_FILE}, but there is no file!";
     exit 1;
@@ -108,6 +109,27 @@ docker run -d -v "${DATA_DIR}:/amak-data" -v "${CONFIG_FOLDER}:/amak-config" -p 
 echo "Container ${TARGET_NAME} is online and hosting build $BUILD_NUMBER from $ENVIRONMENT."
 
 echo "Starting docker clean now..."
+
 docker rm $(docker ps -q -f status=exited)
+
+IMAGEHISTORY1="${CONFIG_FOLDER}/image-1"
+IMAGEHISTORY2="${CONFIG_FOLDER}/image-2"
+IMAGEHISTORY3="${CONFIG_FOLDER}/image-3"
+
+if [ -f "$IMAGEHISTORY3" ]; then
+    IMAGEHISTORY3NAME=`cat "$IMAGEHISTORY3"`
+    docker rmi $IMAGEHISTORY3NAME
+fi;
+
+if [ -f "$IMAGEHISTORY2" ]; then
+    cp "$IMAGEHISTORY2" "$IMAGEHISTORY3"
+fi;
+
+if [ -f "$IMAGEHISTORY1" ]; then
+    cp "$IMAGEHISTORY1" "$IMAGEHISTORY2"
+fi;
+echo "$IMAGE_NAME" > "$IMAGEHISTORY1";
+
+
 docker rmi $(docker images -q -f "dangling=true")
 echo "all ok..."
