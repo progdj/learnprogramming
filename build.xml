@@ -32,25 +32,46 @@
     </target>
 
 
-
-
     <target name="init-frontend" description="Initialises AMAK Frontend (Composer, npm, grunt)" depends="start">
         <exec command="${cmd.update.frontend}" passthru="true"/>
         <exec command="${cmd.npm.frontend}" passthru="true"/>
         <exec command="${cmd.grunt.frontend}" passthru="true"/>
+        <phingcall target="init-source-frontend"/>
     </target>
 
 
-    <target name="init-source" description="Initialises AMAK Source (Composer, npm, grunt)" depends="start">
-        <exec command="${cmd.update.source}" passthru="true"/>
-        <exec command="${cmd.npm.source}" passthru="true"/>
-        <exec command="${cmd.grunt.source}" passthru="true"/>
+    <target name="init-source-frontend" description="Initialises AMAK Source within AMAK Frontend (npm, grunt)" depends="start">
+        <exec command="${cmd.npm.source.frontend}" passthru="true"/>
+        <exec command="${cmd.grunt.source.frontend}" passthru="true"/>
     </target>
 
     <target name="init-cms" description="Initialises AMAK CMS (Composer, npm, grunt)" depends="start">
         <exec command="${cmd.update.cms}" passthru="true"/>
         <exec command="${cmd.npm.cms}" passthru="true"/>
         <exec command="${cmd.grunt.cms}" passthru="true"/>
+        <phingcall target="init-source-cms"/>
+    </target>
+
+    <target name="init-source-cms" description="Initialises AMAK Source within AMAK CMS (npm, grunt)" depends="start">
+        <exec command="${cmd.npm.source.cms}" passthru="true"/>
+        <exec command="${cmd.grunt.source.cms}" passthru="true"/>
+    </target>
+
+
+    <target name="init-portal" description="Initialises AMAK CMS (Composer, npm, grunt)" depends="start">
+        <exec command="${cmd.update.portal}" passthru="true"/>
+        <exec command="${cmd.npm.portal}" passthru="true"/>
+        <exec command="${cmd.grunt.portal}" passthru="true"/>
+        <phingcall target="init-source-cms"/>
+    </target>
+
+    <target name="init-source-portal" description="Initialises AMAK Source within AMAK Portal (npm, grunt)" depends="start">
+        <exec command="${cmd.npm.source.portal}" passthru="true"/>
+        <exec command="${cmd.grunt.source.portal}" passthru="true"/>
+    </target>
+
+    <target name="migrate-portal" description="Executes the Yiic migrate command in AMAK Portal" depends="start">
+        <exec command="${cmd.migrate.portal}" passthru="true"/>
     </target>
 
     <target name="init-all" description="Initialises the whole application" depends="start">
