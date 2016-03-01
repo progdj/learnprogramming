@@ -20,7 +20,7 @@ if [ -d /var/www/amak-frontend ]; then
 
     # apply configuration
     cd /var/www/amak-frontend;
-    vendor/bin/phing config;
+    sudo -u www-data -g www-data vendor/bin/phing config;
 
     # prepare logging
     sudo -u www-data -g www-data touch /var/www/amak-frontend/protected/runtime/php-error.log
@@ -55,7 +55,7 @@ if [ -d /var/www/amak-cms ]; then
 
     # apply configuration
     cd /var/www/amak-cms;
-    vendor/bin/phing config;
+    sudo -u www-data -g www-data vendor/bin/phing config;
 
     #prepare logging
     sudo -u www-data -g www-data touch /var/www/amak-cms/protected/runtime/php-error.log
@@ -87,7 +87,7 @@ if [ -d /var/www/amak-portal ]; then
 
     # apply configuration
     cd /var/www/amak-portal;
-    vendor/bin/phing config;
+    sudo -u www-data -g www-data vendor/bin/phing config;
 
     #prepare logging
     sudo -u www-data -g www-data touch /var/www/amak-portal/protected/runtime/php-error.log
