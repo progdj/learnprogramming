@@ -20,9 +20,11 @@ if [ -d /var/www/amak-frontend ]; then
     frontendvhosts=`/scripts/package-macro-vhosts.sh frontend /var/www/amak-frontend /amak-config .production`
     echo -e "$frontendvhosts" > /etc/apache2/sites-available/01-amak-frontend.conf
     a2ensite 01-amak-frontend
+    a2ensite 03-amak-assets
 else
     echo "Package amak-frontend is not existing, will not perform automatic configuration.";
     a2dissite 01-amak-frontend
+    a2dissite 03-amak-assets
 fi
 
 # package cms
@@ -45,18 +47,6 @@ else
     a2dissite 02-amak-cms
 fi
 
-# amak source
-if [ -d /var/www/amak-source ]; then
-    if [ -f /amak-config/cdn.domains.properties ]; then
-        cdnAlias=`cat /amak-config/cdn.domains.properties`
-        echo -n "ServerAlias $cdnAlias"  > /etc/apache2/cdn-domains.conf
-    fi;
-    a2ensite 03-amak-assets
-    a2ensite 04-amak-cdn
-else
-    a2dissite 03-amak-assets
-    a2dissite 04-amak-cdn
-fi;
 
 # package portal
 if [ -d /var/www/amak-portal ]; then
@@ -70,11 +60,11 @@ if [ -d /var/www/amak-portal ]; then
 
     # prepare dynamic vhosts for amak-portal
     portalvhosts=`/scripts/package-macro-vhosts.sh portal /var/www/amak-portal /amak-config .production`;
-    echo -e "$portalvhosts" > /etc/apache2/sites-available/05-amak-portal.conf
-    a2ensite 05-amak-portal
+    echo -e "$portalvhosts" > /etc/apache2/sites-available/04-amak-portal.conf
+    a2ensite 04-amak-portal
 else
     echo "Package amak-portal is not existing, will not perform automatic configuration.";
-    a2dissite 05-amak-portal
+    a2dissite 04-amak-portal
 fi
 
 # Start apache and tail the error log in the background
