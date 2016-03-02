@@ -57,7 +57,6 @@ mount -t vboxsf -o uid=1000,gid=50 D /hostd
 - On first start with `docker-compose up` you need to import data into `amak-db`, now restart with `docker-compose stop` and `docker-compose up`.
 - Focus on docker-compose output which starts with `amak-httpd`. 
 
-
 ### Specials
 
 - Our docker supports `automatic vhost extensions` for each `licensholder child` on `amak-frontend` and `amak-portal`.
@@ -69,6 +68,11 @@ mount -t vboxsf -o uid=1000,gid=50 D /hostd
 - Each licenseholder child has one default alias named `frontend-[CHILDiD]`.
 - Each `domain` and `portal` has one default alias named `[domain|portal].local`.
   - Values for `domain` and `portal` will be used from db!  
+
+### Grunt / NPM
+
+- If you need to deploy assets (grunt, npm) you should consider using the shortcut `vendor/bin/phing npm && vendor/bin/phing grunt` inside each package!
+ - Non windows users can use amaker tasks for this. 
 
 ## Installation
 ### 1. Install Docker Toolbox
