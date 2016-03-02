@@ -26,14 +26,20 @@ if [ -d /var/www/amak-frontend ]; then
     sudo -u www-data -g www-data touch /var/www/amak-frontend/protected/runtime/php-error.log
     sudo -u www-data -g www-data touch /var/www/amak-frontend/protected/runtime/error.log
 
-    # prepare dynamic vhosts for amak-frontend
-    frontendvhosts=`/scripts/package-macro-vhosts.sh frontend /var/www/amak-frontend /config .local`
-    echo -e "$frontendvhosts" > /etc/apache2/sites-available/01-amak-frontend.conf
-    echo -e $frontendvhosts
-    a2ensite 01-amak-frontend
+    vhostprecheck=`php yiic apachesetup check --filter=frontend`
+    if [ $? -eq 0  ]; then
+        echo -e "$vhostprecheck";
+        # prepare dynamic vhosts for amak-frontend
+        frontendvhosts=`/scripts/package-macro-vhosts.sh frontend /var/www/amak-frontend /config .local`;
+        echo -e "$frontendvhosts" > /etc/apache2/sites-available/01-amak-frontend.conf;
+        echo -e $frontendvhosts;
+        a2ensite 01-amak-frontend;
+    else
+        >&2 echo "Package amak-frontend is not yet ready to use please check your setup! Error was: ";
+        >&2 echo -e "$vhostprecheck"
+    fi;
 else
     echo "Package amak-frontend is not existing, will not perform automatic configuration.";
-    a2dissite 01-amak-frontend
 fi
 
 # package cms
@@ -64,14 +70,11 @@ if [ -d /var/www/amak-cms ]; then
     a2ensite 02-amak-cms
 else
     echo "Package amak-cms is not existing, will not perform automatic configuration.";
-    a2dissite 02-amak-cms
 fi
 
 # amak assets
 if [ -d /var/www/amak-frontend ]; then
     a2ensite 03-amak-assets
-else
-    a2dissite 03-amak-assets
 fi;
 
 # package portal
@@ -91,14 +94,22 @@ if [ -d /var/www/amak-portal ]; then
     sudo -u www-data -g www-data touch /var/www/amak-portal/protected/runtime/php-error.log
     sudo -u www-data -g www-data touch /var/www/amak-portal/protected/runtime/error.log
 
-    # prepare dynamic vhosts for amak-portal
-    portalvhosts=`/scripts/package-macro-vhosts.sh portal /var/www/amak-portal /config .local`;
-    echo -e "$portalvhosts" > /etc/apache2/sites-available/04-amak-portal.conf
-    echo -e $portalvhosts
-    a2ensite 04-amak-portal
+    vhostprecheck=`php yiic apachesetup check --filter=portal`
+    if [ $? -eq 0  ]; then
+        echo -e "$vhostprecheck";
+        # prepare dynamic vhosts for amak-portal
+        portalvhosts=`/scripts/package-macro-vhosts.sh portal /var/www/amak-portal /config .local`;
+        echo -e "$portalvhosts" > /etc/apache2/sites-available/04-amak-portal.conf
+        echo -e $portalvhosts
+        a2ensite 04-amak-portal
+    else
+        >&2 echo "Package amak-portal is not yet ready to use please check your setup! Error was: ";
+        >&2 echo -e "$vhostprecheck"
+    fi;
+
+
 else
     echo "Package amak-portal is not existing, will not perform automatic configuration.";
-    a2dissite 04-amak-portal
 fi
 
 # Start apache and tail the error log in the background
