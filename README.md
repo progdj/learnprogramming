@@ -51,8 +51,11 @@ mount -t vboxsf -o uid=1000,gid=50 D /hostd
 
 ### Setup Container
 
-- First run `composer install`, followed by `./amaker compose-config`
-- now run `./amaker init-frontend` or even `./amaker init-all`. 
+- First run `composer install`, followed by `./amaker compose-config`.
+- You should setup all your packages by running `composer update`.
+- Verify that each package has a valid `config.properties` inside it's root directory, if note create one by template `config.properties-dist`.
+- On first start with `docker-compose up` you need to import data into `amak-db`, now restart with `docker-compose stop` and `docker-compose up`.
+- Focus on docker-compose output which starts with `amak-httpd`. 
 
 
 ### Specials
