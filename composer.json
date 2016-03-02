@@ -46,12 +46,6 @@
             },
 
             {
-                "name": "vrsmedia/amak-source",
-                "target": "/var/www/amak-source",
-                "required": true
-            },
-
-            {
                 "name": "vrsmedia/amak-cms",
                 "target": "/var/www/amak-cms"
             },
