@@ -133,3 +133,6 @@ echo "$IMAGE_NAME" > "$IMAGEHISTORY1";
 
 docker rmi $(docker images -q -f "dangling=true")
 echo "all ok..."
+
+
+docker logs ${TARGET_NAME}
