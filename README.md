@@ -72,6 +72,7 @@ mount -t vboxsf -o uid=1000,gid=50 D /hostd
 ### Grunt / NPM
 
 - If you need to deploy assets (grunt, npm) you should consider using the shortcut `vendor/bin/phing npm && vendor/bin/phing grunt` inside each package!
+ - Do not forget to install grunt cli before `npm install -g grunt-cli`
  - Non windows users can use amaker tasks for this. 
 
 ## Installation
