@@ -82,6 +82,9 @@ ADD php.ini /etc/php5/apache2/php.ini
 ADD scripts /scripts
 RUN chmod +x -R /scripts/
 
+# Set Server TimeZone
+ENV TZ Europe/Berlin
+
 EXPOSE 80
 
 WORKDIR "/var/www"

@@ -49,4 +49,5 @@ RUN composer global require "squizlabs/php_codesniffer=*" \
     && composer global require 'sebastian/phpcpd=*'
 
 
-
+# Set Server TimeZone
+ENV TZ Europe/Berlin

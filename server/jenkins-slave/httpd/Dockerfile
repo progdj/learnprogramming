@@ -79,6 +79,8 @@ COPY packages /amak-packages
 # Extract Application
 RUN /scripts/extract.sh
 
+# Set Server TimeZone
+ENV TZ Europe/Berlin
 
 # Exports
 EXPOSE 80
