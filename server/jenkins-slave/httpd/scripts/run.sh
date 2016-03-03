@@ -3,9 +3,6 @@
 # Setup Config
 /scripts/config.sh /amak-config /amak-data
 
-# Updates
-#/update.sh
-
 # amak docker development bootstrap
 AMAK_FRONTEND_ACTIVATED="no"
 AMAK_PORTAL_ACTIVATED="no"
@@ -25,6 +22,8 @@ if [ -d /var/www/amak-frontend ]; then
     vhostprecheck=`php yiic apachesetup check --filter=frontend`
     if [ $? -eq 0  ]; then
         echo -e "$vhostprecheck";
+        # perform migrations
+        php yiic migrate --interactive=0
         # prepare dynamic vhosts for amak-frontend
         frontendvhosts=`/scripts/package-macro-vhosts.sh frontend /var/www/amak-frontend /config .production`;
         echo -e "$frontendvhosts" > /etc/apache2/sites-available/01-amak-frontend.conf;
@@ -82,6 +81,8 @@ if [ -d /var/www/amak-portal ]; then
     vhostprecheck=`php yiic apachesetup check --filter=portal`
     if [ $? -eq 0  ]; then
         echo -e "$vhostprecheck";
+        # perform migrations
+        php yiic migrate --interactive=0
         # prepare dynamic vhosts for amak-portal
         portalvhosts=`/scripts/package-macro-vhosts.sh portal /var/www/amak-portal /config .production`;
         echo -e "$portalvhosts" > /etc/apache2/sites-available/04-amak-portal.conf
