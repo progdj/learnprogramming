@@ -28,7 +28,7 @@ head over to the [Documentation](https://docs.docker.com/) and gain even deeper 
     - ![Virtual Box Shared Folders Link](./docs/virtualbox-shared-folders-link.jpg "Virtual Box Shared Folders Link")
     - ![Virtual Box Shared Folders Dialog](./docs/virtualbox-shared-folders.jpg "Virtual Box Shared Folders Dialog")
   - Close the control panel.
-- Go back to your prompt... 
+- Go back to your prompt...  (please use git-bash for this, as cgywin might not work at all..)
  - Enter the Docker Provider Machine (Boot2Docker) by running `docker-machine ssh default`
     - In that prompt run `sudo su`.
     - Create the file **/var/lib/boot2docker/bootsync.sh** by running 
