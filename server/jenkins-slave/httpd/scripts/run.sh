@@ -31,6 +31,7 @@ if [ -d /var/www/amak-frontend ]; then
         echo -e $frontendvhosts;
         a2ensite 01-amak-frontend;
         a2ensite 03-amak-assets
+        echo -e "\n127.0.0.1 assets.amak-server.local" >> /etc/hosts
         AMAK_FRONTEND_ACTIVATED="yes"
     else
         >&2 echo "WARN: Package amak-frontend is not yet ready to use please check your setup!";
