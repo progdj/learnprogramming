@@ -116,17 +116,26 @@ tail -F -n 0 /var/log/apache2/error.log >&2 &
 if [ -d /var/www/amak-frontend ]; then
     tail -F -n 0 /var/www/amak-frontend/protected/runtime/php-error.log >&2 &
     tail -F -n 0 /var/www/amak-frontend/protected/runtime/error.log >&2 &
+    tail -F -n 0 /var/log/apache2/amak-assets-error.log 2>/dev/null >&2 &
+    for((i=20; i>0; i--))
+    do
+       tail -F -n 0 /var/log/apache2/amak-frontend-$i-error.log 2>/dev/null >&2 &
+    done
 fi;
 
 if [ -d /var/www/amak-portal ]; then
     tail -F -n 0 /var/www/amak-portal/protected/runtime/php-error.log >&2 &
     tail -F -n 0 /var/www/amak-portal/protected/runtime/error.log >&2 &
+    for((i=20; i>0; i--))
+    do
+       tail -F -n 0 /var/log/apache2/amak-portal-$i-error.log 2>/dev/null >&2 &
+    done
 fi;
 
 if [ -d /var/www/amak-cms ]; then
     tail -F -n 0 /var/www/amak-cms/protected/runtime/php-error.log >&2 &
     tail -F -n 0 /var/www/amak-cms/protected/runtime/error.log >&2 &
+    tail -F -n 0 /var/log/apache2/amak-cms-error.log 2>/dev/null >&2 &
 fi;
-
 
 exec apache2 -D FOREGROUND
