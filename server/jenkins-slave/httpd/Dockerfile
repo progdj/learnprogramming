@@ -24,7 +24,8 @@ RUN apt-get -y install \
   ghostscript \
   language-pack-de \
   language-pack-nl \
-  language-pack-fr
+  language-pack-fr \
+  imagemagick
 
 # java 8
 RUN \
