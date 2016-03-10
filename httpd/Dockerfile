@@ -8,11 +8,10 @@ RUN apt-get -y install software-properties-common
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
 RUN apt-add-repository ppa:ondrej/php5-5.6
 
-# packages
-RUN apt-get -y update 
 
-# php
-RUN apt-get -y install \
+# packages
+RUN apt-get -y update && \
+	apt-get -y install \
   apache2 \
   libapache2-mod-php5 \
   php5-mysql \
