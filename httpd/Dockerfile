@@ -28,7 +28,9 @@ RUN apt-get -y install \
   nodejs-legacy \
   language-pack-de \
   language-pack-nl \
-  language-pack-fr
+  language-pack-fr \
+  imagemagick
+  
 
 # java 8
 RUN \
