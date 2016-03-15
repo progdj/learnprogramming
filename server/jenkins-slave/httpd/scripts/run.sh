@@ -25,7 +25,7 @@ if [ -d /var/www/amak-frontend ]; then
         # perform migrations
         php yiic migrate --interactive=0
         # prepare dynamic vhosts for amak-frontend
-        frontendvhosts=`/scripts/package-macro-vhosts.sh frontend /var/www/amak-frontend /config .production`;
+        frontendvhosts=`/scripts/package-macro-vhosts.sh frontend /var/www/amak-frontend /amak-config .production`;
         echo -e "$frontendvhosts" > /etc/apache2/sites-available/01-amak-frontend.conf;
         echo -e $frontendvhosts;
         a2ensite 01-amak-frontend;
@@ -84,7 +84,7 @@ if [ -d /var/www/amak-portal ]; then
         # perform migrations
         php yiic migrate --interactive=0
         # prepare dynamic vhosts for amak-portal
-        portalvhosts=`/scripts/package-macro-vhosts.sh portal /var/www/amak-portal /config .production`;
+        portalvhosts=`/scripts/package-macro-vhosts.sh portal /var/www/amak-portal /amak-config .production`;
         echo -e "$portalvhosts" > /etc/apache2/sites-available/04-amak-portal.conf
         echo -e $portalvhosts
         a2ensite 04-amak-portal
