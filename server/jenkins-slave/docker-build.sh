@@ -119,6 +119,7 @@ fi;
 echo "$TARGET_NAME" > "$ACTIVE_INSTANCE_FILE";
 
 # start the new image
+echo "docker run -d -v ${DATA_DIR}:/amak-data -v ${CONFIG_FOLDER}:/amak-config -p ${WEB_PORT}:80 --name=${TARGET_NAME} ${IMAGE_NAME}"
 docker run -d -v "${DATA_DIR}:/amak-data" -v "${CONFIG_FOLDER}:/amak-config" -p "${WEB_PORT}:80" --name="${TARGET_NAME}" "${IMAGE_NAME}"
 echo "Container ${TARGET_NAME} is online and hosting build $BUILD_NUMBER from $ENVIRONMENT."
 

@@ -26,7 +26,12 @@ TARGET_IMAGE="vrs-media/amak:$VERSION"
 TARGET_IMAGE_FILE="$TRANSFER_FOLDER/amak-$VERSION"
 
 docker tag "$SOURCE_IMAGE" "$TARGET_IMAGE"
-docker export "$TARGET_IMAGE" > "$TARGET_IMAGE_FILE"
+docker save "$TARGET_IMAGE" > "$TARGET_IMAGE_FILE"
+
+if [[ $? -ne 0 ]]; then
+    >&2 echo "Failed to save image on filesystem for ${SOURCE_IMAGE}!";
+    exit 1;
+fi;
 
 echo "Tag ${TARGET_IMAGE} created from ${ENVIRONMENT} ${SOURCE_IMAGE}."
 echo "Exported image at $TARGET_IMAGE_FILE."
