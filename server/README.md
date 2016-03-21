@@ -13,8 +13,30 @@ Welcome to the AMAK Docker Server Environment. Here you'll find our setup for pr
 - A slave must host a docker service. https://docs.docker.com/engine/installation/linux/
 - At jenkins home should be a checkout from `amak-docker` with a symlink named `slave` pointing to checkout `server/jenkins-slave`.
  - like `lrwxrwxrwx 1 jenkins jenkins   47 Feb 29 22:57 slave -> /home/jenkins/amak-docker/server/jenkins-slave/`
-- The user jenkins must have a valid ssh configuration.
+- The user jenkins must have a valid ssh configuration, that includes private key and authorized_keys!
 - Follow `docker-build.sh` and `environments/README.md` to follow the ci process. 
+
+### Tasks and Setups
+
+- We support 2 ways to create and host containers.
+ - Source Code based containers, which are created after a pull from git. This containers are used for testing and development purposes. These containers will use the workflow controlled by `docker-build.sh`.
+ - Image based container deployments, which are created out of an image from `docker-build.sh`. The workflow for this deployment is cointrolled by `docker-export.sh` and `docker-import.sh` - or `docker-share.sh`.
+- Both ways use the [environment config](environments/README.md) logic to define what configuration will be used to host the actual container.
+
+### Production Containers
+
+A production container should be created out of an image from a container that was tested before. 
+Doing so ensures that the result of docker build and current package versions are working together, 
+as every new build could change versions within the used os or third party libs.
+To do so `docker-export.sh` will create docker image tag named `amak-VERSION` based on the `environment` you passed.
+If you would pass `develop` as environment the image used to host the current `develop` container would get tagged and exported to a file.
+
+We expect different hosts for develop and production.
+
+`docker-import.sh` will use this file to restore the tag on the foreign host using the passed environment to define which configuration should be used to host the image.
+
+`docker-share.sh` combines all steps needed to `export`, `transfer` and `import` a image from the source server to the actual production server. 
+   
 
 ### HowTo: create a docker server image (bloody by hand)
 
