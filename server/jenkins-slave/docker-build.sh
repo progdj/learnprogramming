@@ -5,6 +5,8 @@
 #  - using a environment (configuration)    #arg 0
 #  - a version identifier (build number)    #arg 1
 #  - a folder containing the amak packages  #arg 2
+#
+# This script builds fresh images with source code for usage within non production systems.
 
 ENVIRONMENT=$1
 BUILD_NUMBER=$2
