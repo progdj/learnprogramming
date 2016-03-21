@@ -12,7 +12,7 @@
 ENVIRONMENT=$1
 VERSION=$2
 
-BASE="${0%/*}"
+BASE=`realpath "${0%/*}"`
 CONFIG_FOLDER="${BASE}/environments/${ENVIRONMENT}"
 TRANSFER_FOLDER="${BASE}/transfer"
 

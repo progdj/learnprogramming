@@ -12,7 +12,7 @@
 ENVIRONMENT=$1
 VERSION=$2
 
-BASE="${0%/*}"
+BASE=`realpath "${0%/*}"`
 CONFIG_FOLDER="${BASE}/environments/${ENVIRONMENT}"
 TRANSFER_FOLDER="${BASE}/transfer"
 
@@ -110,7 +110,14 @@ fi;
 echo "$TARGET_NAME" > "$ACTIVE_INSTANCE_FILE";
 
 # start the image
+echo "docker run -d -v ${DATA_DIR}:/amak-data -v ${CONFIG_FOLDER}:/amak-config -p ${WEB_PORT}:80 --name=${TARGET_NAME} ${SOURCE_IMAGE}"
 docker run -d -v "${DATA_DIR}:/amak-data" -v "${CONFIG_FOLDER}:/amak-config" -p "${WEB_PORT}:80" --name="${TARGET_NAME}" "${SOURCE_IMAGE}"
+
+if [[ $? -ne 0 ]]; then
+    >&2 echo "Failed to start container!";
+    exit 1;
+fi;
+
 echo "Container ${TARGET_NAME} is online and hosting image $SOURCE_IMAGE with env from $ENVIRONMENT."
 
 # display logs from current machine
