@@ -95,6 +95,7 @@ if [ $? -eq 1 ]; then
     exit 1;
 fi;
 
+APP_ENVIRONMENT=`getConfiguration "environment" "testing"`;
 
 TARGET_NAME="$ENVIRONMENT-$VERSION"
 
@@ -110,15 +111,15 @@ fi;
 echo "$TARGET_NAME" > "$ACTIVE_INSTANCE_FILE";
 
 # start the image
-echo "docker run -d -v ${DATA_DIR}:/amak-data -v ${CONFIG_FOLDER}:/amak-config -p ${WEB_PORT}:80 --name=${TARGET_NAME} ${SOURCE_IMAGE}"
-docker run -d -v "${DATA_DIR}:/amak-data" -v "${CONFIG_FOLDER}:/amak-config" -p "${WEB_PORT}:80" --name="${TARGET_NAME}" "${SOURCE_IMAGE}"
+echo "docker run -d -v ${DATA_DIR}:/amak-data -v ${CONFIG_FOLDER}:/amak-config -p ${WEB_PORT}:80 -e ENVIRONMENT=$APP_ENVIRONMENT --restart=unless-stopped --name=${TARGET_NAME} ${SOURCE_IMAGE}"
+docker run -d -v "${DATA_DIR}:/amak-data" -v "${CONFIG_FOLDER}:/amak-config" -p "${WEB_PORT}:80" -e "ENVIRONMENT=$APP_ENVIRONMENT" --restart=unless-stopped --name="${TARGET_NAME}" "${SOURCE_IMAGE}"
 
 if [[ $? -ne 0 ]]; then
     >&2 echo "Failed to start container!";
     exit 1;
 fi;
 
-echo "Container ${TARGET_NAME} is online and hosting image $SOURCE_IMAGE with env from $ENVIRONMENT."
+echo "Container ${TARGET_NAME} is online and hosting image $SOURCE_IMAGE with env from $ENVIRONMENT in mode $APP_ENVIRONMENT."
 
 # display logs from current machine
 docker logs "${TARGET_NAME}"

@@ -86,6 +86,9 @@ if [ $? -eq 1 ]; then
 fi;
 
 
+APP_ENVIRONMENT=`getConfiguration "environment" "testing"`;
+
+
 
 # clean used packages first
 rm -R -f "$BASE/httpd/packages/"*.tar.gz
@@ -119,15 +122,15 @@ fi;
 echo "$TARGET_NAME" > "$ACTIVE_INSTANCE_FILE";
 
 # start the new image
-echo "docker run -d -v ${DATA_DIR}:/amak-data -v ${CONFIG_FOLDER}:/amak-config -p ${WEB_PORT}:80 --name=${TARGET_NAME} ${IMAGE_NAME}"
-docker run -d -v "${DATA_DIR}:/amak-data" -v "${CONFIG_FOLDER}:/amak-config" -p "${WEB_PORT}:80" --name="${TARGET_NAME}" "${IMAGE_NAME}"
+echo "docker run -d -v ${DATA_DIR}:/amak-data -v ${CONFIG_FOLDER}:/amak-config -p ${WEB_PORT}:80 -e ENVIRONMENT=$APP_ENVIRONMENT --restart=unless-stopped --name=${TARGET_NAME} ${IMAGE_NAME}"
+docker run -d -v "${DATA_DIR}:/amak-data" -v "${CONFIG_FOLDER}:/amak-config" -p "${WEB_PORT}:80" -e "ENVIRONMENT=$APP_ENVIRONMENT" --restart=unless-stopped --name="${TARGET_NAME}" "${IMAGE_NAME}"
 
 if [[ $? -ne 0 ]]; then
     >&2 echo "Failed to start container!";
     exit 1;
 fi;
 
-echo "Container ${TARGET_NAME} is online and hosting build $BUILD_NUMBER from $ENVIRONMENT."
+echo "Container ${TARGET_NAME} is online and hosting build $BUILD_NUMBER from $ENVIRONMENT in mode $APP_ENVIRONMENT."
 
 echo "Starting docker clean now..."
 

@@ -86,6 +86,9 @@ RUN chmod +x -R /scripts/
 # Set Server TimeZone
 ENV TZ Europe/Berlin
 
+# application environment
+ENV ENVIRONMENT development
+
 EXPOSE 80
 
 WORKDIR "/var/www"
