@@ -30,7 +30,7 @@ fi;
 # copy the generated image file to target host
 TARGET_IMAGE_FILE="$BASE/transfer/amak-$VERSION"
 ssh "$TARGET_HOST" -p 2255 "mkdir -p /home/jenkins/slave/transfer"
-scp -P 2255 "$TARGET_IMAGE_FILE" "$TARGET_HOST/home/jenkins/slave/transfer/"
+scp -P 2255 "$TARGET_IMAGE_FILE" "$TARGET_HOST:/home/jenkins/slave/transfer/"
 
 if [[ $? -ne 0 ]]; then
     >&2 echo "Failed to copy file!";
@@ -47,3 +47,7 @@ if [[ $? -ne 0 ]]; then
     >&2 echo "Import operation failed!";
     exit 1;
 fi;
+
+#clean up
+ssh "$TARGET_HOST" -p 2255 "rm /home/jenkins/slave/transfer/amak-$VERSION"
+rm "$TARGET_IMAGE_FILE"
