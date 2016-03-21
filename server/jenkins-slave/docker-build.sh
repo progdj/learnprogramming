@@ -94,6 +94,10 @@ cp "${PACKAGE_SOURCE_DIR}/"*.tar.gz "$BASE/httpd/packages/"
 
 IMAGE_NAME="$ENVIRONMENT-$BUILD_NUMBER-image"
 TARGET_NAME="$ENVIRONMENT-$BUILD_NUMBER"
+
+echo "Ensure container base image is up to date...";
+docker pull ubuntu:trusty
+
 docker build -t "${IMAGE_NAME}" "${BASE}/httpd"
 
 if [[ $? -ne 0 ]]; then
