@@ -68,6 +68,7 @@ function getConfiguration() {
 
 DATA_DIR=`getConfiguration "datadir"`;
 if [ $? -eq 1 ]; then
+    >&2 echo "Configuration parameter [datadir] was not set. Please check your configuration for $ENVIRONMENT.";
     exit 1;
 fi;
 
@@ -78,6 +79,7 @@ fi;
 
 WEB_PORT=`getConfiguration "webport"`;
 if [ $? -eq 1 ]; then
+    >&2 echo "Configuration parameter [webport] was not set. Please check your configuration for $ENVIRONMENT.";
     exit 1;
 fi;
 
@@ -94,6 +96,10 @@ IMAGE_NAME="$ENVIRONMENT-$BUILD_NUMBER-image"
 TARGET_NAME="$ENVIRONMENT-$BUILD_NUMBER"
 docker build -t "${IMAGE_NAME}" "${BASE}/httpd"
 
+if [[ $? -ne 0 ]]; then
+    >&2 echo "Docker build failed! Please check Dockerfile and logs...";
+    exit 1;
+fi;
 
 if [ ! -f "$ACTIVE_INSTANCE_FILE" ]; then
     echo "Seems to be the first time you start this container. Instance control file will be created at $ACTIVE_INSTANCE_FILE.";
@@ -105,6 +111,8 @@ else
 fi;
 
 echo "$TARGET_NAME" > "$ACTIVE_INSTANCE_FILE";
+
+# start the new image
 docker run -d -v "${DATA_DIR}:/amak-data" -v "${CONFIG_FOLDER}:/amak-config" -p "${WEB_PORT}:80" --name="${TARGET_NAME}" "${IMAGE_NAME}"
 echo "Container ${TARGET_NAME} is online and hosting build $BUILD_NUMBER from $ENVIRONMENT."
 
@@ -134,5 +142,5 @@ echo "$IMAGE_NAME" > "$IMAGEHISTORY1";
 docker rmi $(docker images -q -f "dangling=true")
 echo "all ok..."
 
-
+# display logs from current machine
 docker logs ${TARGET_NAME}
