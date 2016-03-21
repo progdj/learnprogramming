@@ -21,7 +21,7 @@ Welcome to the AMAK Docker Server Environment. Here you'll find our setup for pr
 - We support 2 ways to create and host containers.
  - Source Code based containers, which are created after a pull from git. This containers are used for testing and development purposes. These containers will use the workflow controlled by `docker-build.sh`.
  - Image based container deployments, which are created out of an image from `docker-build.sh`. The workflow for this deployment is cointrolled by `docker-export.sh` and `docker-import.sh` - or `docker-share.sh`.
-- Both ways use the [environment config](environments/README.md) logic to define what configuration will be used to host the actual container.
+- Both ways use the [environment config](jenkins-slave/environments/README.md) logic to define what configuration will be used to host the actual container.
 
 ### Production Containers
 
