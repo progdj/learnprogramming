@@ -20,7 +20,7 @@ TARGET_ENVIRONMENT=$4
 BASE=`realpath "${0%/*}"`
 
 # create export from current active image in passed env...
-$BASE/docker-export.sh "$ENVIRONMENT" "VERSION"
+$BASE/docker-export.sh "$ENVIRONMENT" "$VERSION"
 
 if [[ $? -ne 0 ]]; then
     >&2 echo "Export operation failed!";
@@ -30,7 +30,7 @@ fi;
 # copy the generated image file to target host
 TARGET_IMAGE_FILE="$BASE/transfer/amak-$VERSION"
 ssh "$TARGET_HOST" -p 2255 "mkdir -p /home/jenkins/slave/transfer"
-scp "$TARGET_IMAGE_FILE" "$TARGET_HOST/home/jenkins/slave/transfer/" -p 2255
+scp -P 2255 "$TARGET_IMAGE_FILE" "$TARGET_HOST/home/jenkins/slave/transfer/"
 
 if [[ $? -ne 0 ]]; then
     >&2 echo "Failed to copy file!";
