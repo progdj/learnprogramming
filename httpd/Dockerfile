@@ -21,6 +21,9 @@ RUN apt-get -y update && \
   php5-xdebug \
   php5-mcrypt \
   php5-ssh2 \
+  libgpgme11-dev \
+  php-pear \
+  php5-dev \
   curl \
   ghostscript \
   npm \
@@ -30,6 +33,11 @@ RUN apt-get -y update && \
   language-pack-fr \
   imagemagick
   
+# Install GnuPG PHP Extension
+RUN pecl install gnupg
+ADD php-mods-available/gnupg.ini /etc/php5/mods-available
+RUN ln -s /etc/php5/mods-available/gnupg.ini /etc/php5/apache2/conf.d/20-gnupg.ini
+
 
 # java 8
 RUN \
