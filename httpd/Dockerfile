@@ -1,13 +1,25 @@
 FROM ubuntu:trusty
 
-# Install apache
+# Non interactive frontend
 RUN DEBIAN_FRONTEND=noninteractive
 
-# php 5.6
+# ppa management
 RUN apt-get -y install software-properties-common
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
-RUN apt-add-repository ppa:ondrej/php5-5.6
 
+# java 8
+RUN \
+  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
+  add-apt-repository -y ppa:webupd8team/java && \
+  apt-get update && \
+  apt-get install -y oracle-java8-installer && \
+  rm -rf /var/cache/oracle-jdk8-installer && \
+  apt-get -y update && \
+  apt-get -y install oracle-java8-installer
+
+
+# php 5.6 repository
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C && \
+    apt-add-repository ppa:ondrej/php5-5.6
 
 # packages
 RUN apt-get -y update && \
@@ -32,25 +44,21 @@ RUN apt-get -y update && \
   language-pack-nl \
   language-pack-fr \
   imagemagick
-  
+
+# php configuration
+ADD php/apache2/php.ini /etc/php5/apache2/php.ini
+
 # Install GnuPG PHP Extension
 RUN pecl install gnupg
-ADD php-mods-available/gnupg.ini /etc/php5/mods-available
-RUN ln -s /etc/php5/mods-available/gnupg.ini /etc/php5/apache2/conf.d/20-gnupg.ini
+ADD php/mods-available/gnupg.ini /etc/php5/mods-available/
+RUN php5enmod gnupg
 
+# php vrs-extensions
+ADD php/vrsmedia-extensions /usr/lib/php5/vrsmedia-extensions
 
-# java 8
-RUN \
-  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
-  add-apt-repository -y ppa:webupd8team/java && \
-  apt-get update && \
-  apt-get install -y oracle-java8-installer && \
-  rm -rf /var/cache/oracle-jdk8-installer
-  
-# packages
-RUN apt-get -y update 
-RUN apt-get -y install oracle-java8-installer
-
+# php vrs-extensions pdflib
+ADD php/mods-available/pdflib.ini /etc/php5/mods-available/
+RUN php5enmod pdflib && php5enmod pdflib
 
 # Install composer
 RUN curl getcomposer.org/composer.phar > /usr/bin/composer
@@ -68,12 +76,6 @@ RUN a2enmod php5 && \
     a2enmod proxy_connect && \
     a2enmod macro
 
-# Error reporting
-RUN sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php5/apache2/php.ini
-
-# Add PHP extensions
-ADD php_ext /php_ext
-
 # Add ICC profiles
 ADD icc_profiles /icc_profiles
 
@@ -85,7 +87,6 @@ ADD apache/sites-available /etc/apache2/sites-available
 RUN a2dissite 000-default
 
 RUN apache2ctl configtest
-ADD php.ini /etc/php5/apache2/php.ini
 
 # setup scripts
 ADD scripts /scripts
