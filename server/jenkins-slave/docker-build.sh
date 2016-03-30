@@ -68,14 +68,25 @@ function getConfiguration() {
 }
 
 
-DATA_DIR=`getConfiguration "datadir"`;
+AMAK_DATA_DIR=`getConfiguration "amak.datadir"`;
 if [ $? -eq 1 ]; then
-    >&2 echo "Configuration parameter [datadir] was not set. Please check your configuration for $ENVIRONMENT.";
+    >&2 echo "Configuration parameter [amak.datadir] was not set. Please check your configuration for $ENVIRONMENT.";
     exit 1;
 fi;
 
-if [ ! -d "$DATA_DIR" ]; then
-    >&2 echo "Directory $DATA_DIR is not existing. Please check your configuration for [datadir] in $ENVIRONMENT.";
+if [ ! -d "$AMAK_DATA_DIR" ]; then
+    >&2 echo "Directory $AMAK_DATA_DIR is not existing. Please check your configuration for [amak.datadir] in $ENVIRONMENT.";
+    exit 1
+fi;
+
+PORTAL_DATA_DIR=`getConfiguration "portal.datadir"`;
+if [ $? -eq 1 ]; then
+    >&2 echo "Configuration parameter [portal.datadir] was not set. Please check your configuration for $ENVIRONMENT.";
+    exit 1;
+fi;
+
+if [ ! -d "$PORTAL_DATA_DIR" ]; then
+    >&2 echo "Directory $PORTAL_DATA_DIR is not existing. Please check your configuration for [portal.datadir] in $ENVIRONMENT.";
     exit 1
 fi;
 
@@ -121,9 +132,9 @@ fi;
 
 echo "$TARGET_NAME" > "$ACTIVE_INSTANCE_FILE";
 
-# start the new image
-echo "docker run -d -v ${DATA_DIR}:/amak-data -v ${CONFIG_FOLDER}:/amak-config -p ${WEB_PORT}:80 -e ENVIRONMENT=$APP_ENVIRONMENT --restart=unless-stopped --name=${TARGET_NAME} ${IMAGE_NAME}"
-docker run -d -v "${DATA_DIR}:/amak-data" -v "${CONFIG_FOLDER}:/amak-config" -p "${WEB_PORT}:80" -e "ENVIRONMENT=$APP_ENVIRONMENT" --restart=unless-stopped --name="${TARGET_NAME}" "${IMAGE_NAME}"
+# start the image
+echo "docker run -d -v ${AMAK_DATA_DIR}:/amak-data -v ${PORTAL_DATA_DIR}:/portal-data -v ${CONFIG_FOLDER}:/amak-config -p ${WEB_PORT}:80 -e ENVIRONMENT=$APP_ENVIRONMENT --restart=unless-stopped --name=${TARGET_NAME} ${IMAGE_NAME}"
+docker run -d -v "${AMAK_DATA_DIR}:/amak-data" -v ${PORTAL_DATA_DIR}:/portal-data -v "${CONFIG_FOLDER}:/amak-config" -p "${WEB_PORT}:80" -e "ENVIRONMENT=$APP_ENVIRONMENT" --restart=unless-stopped --name="${TARGET_NAME}" "${IMAGE_NAME}"
 
 if [[ $? -ne 0 ]]; then
     >&2 echo "Failed to start container!";

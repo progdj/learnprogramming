@@ -10,7 +10,9 @@ This folder hosts the configuration for each environment which can be deployed b
 ### Minimum Configuration Set
 
 - `env.properties` with following entries
-  - `datadir` - the absolute path to our nfs entry point 
+  - `amak.datadir` - the absolute path to our nfs entry point for amak
+     - (after this entry the next sub-level should contain folders like `1`, `2`…)
+  - `portal.datadir` - the absolute path to our nfs entry point for portal 
      - (after this entry the next sub-level should contain folders like `1`, `2`…)
   - `webport` - the port mapping for this container (like 0.0.0.0:8088)
 - `config.properties` with combined configuration set from `amak-frontend`, `amak-cms` and `amak-portal`.

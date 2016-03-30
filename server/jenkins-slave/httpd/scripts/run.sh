@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Setup Config
-/scripts/config.sh /amak-config /amak-data
+/scripts/config.sh /amak-config /amak-data /portal-data
 
 # amak docker development bootstrap
 AMAK_FRONTEND_ACTIVATED="no"
