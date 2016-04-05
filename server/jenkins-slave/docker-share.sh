@@ -27,27 +27,37 @@ if [[ $? -ne 0 ]]; then
     exit 1;
 fi;
 
-# copy the generated image file to target host
+# the target export image file
 TARGET_IMAGE_FILE="$BASE/transfer/amak-$VERSION"
-ssh "$TARGET_HOST" -p 2255 "mkdir -p /home/jenkins/slave/transfer"
-scp -P 2255 "$TARGET_IMAGE_FILE" "$TARGET_HOST:/home/jenkins/slave/transfer/"
 
-if [[ $? -ne 0 ]]; then
-    >&2 echo "Failed to copy file!";
-    exit 1;
+if [ "$TARGET_HOST" == "127.0.0.1" ] || [ "$TARGET_HOST" == "localhost" ]; then
+        # import the generated image in target env
+        /home/jenkins/slave/docker-import.sh $TARGET_ENVIRONMENT $VERSION
+
+    else
+        # copy the generated image file to target host
+        ssh "$TARGET_HOST" -p 2255 "mkdir -p /home/jenkins/slave/transfer"
+        scp -P 2255 "$TARGET_IMAGE_FILE" "$TARGET_HOST:/home/jenkins/slave/transfer/"
+
+        if [[ $? -ne 0 ]]; then
+            >&2 echo "Failed to copy file!";
+            exit 1;
+        fi;
+
+        # ensure target server is up to date
+        ssh "$TARGET_HOST" -p 2255 "cd /home/jenkins/slave/transfer && git pull"
+
+        # import the generated image in target env
+        ssh "$TARGET_HOST" -p 2255 "/home/jenkins/slave/docker-import.sh $TARGET_ENVIRONMENT $VERSION"
+
+        if [[ $? -ne 0 ]]; then
+            >&2 echo "Import operation failed!";
+            exit 1;
+        fi;
+
+        #clean up
+        ssh "$TARGET_HOST" -p 2255 "rm /home/jenkins/slave/transfer/amak-$VERSION"
 fi;
 
-# ensure target server is up to date
-ssh "$TARGET_HOST" -p 2255 "cd /home/jenkins/slave/transfer && git pull"
-
-# import the generated image in target env
-ssh "$TARGET_HOST" -p 2255 "/home/jenkins/slave/docker-import.sh $TARGET_ENVIRONMENT $VERSION"
-
-if [[ $? -ne 0 ]]; then
-    >&2 echo "Import operation failed!";
-    exit 1;
-fi;
-
-#clean up
-ssh "$TARGET_HOST" -p 2255 "rm /home/jenkins/slave/transfer/amak-$VERSION"
+# delete the export image file
 rm "$TARGET_IMAGE_FILE"
