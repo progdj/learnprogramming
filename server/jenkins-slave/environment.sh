@@ -26,7 +26,7 @@ fi;
 
 ACTIVE_CONTAINER=`cat $ACTIVE_FILE`
 
-docker exec -it $ACTIVE_CONTAINER $COMMAND "${@:3}"
+docker exec -i $ACTIVE_CONTAINER $COMMAND "${@:3}"
 
 if [[ ! $? -eq 0 ]]; then
     echo "Failed to execute '$COMMAND ${@:3}' in current instance of '$ENVIRONMENT'. (Return Code $?)";
