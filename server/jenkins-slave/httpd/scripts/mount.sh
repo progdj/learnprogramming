@@ -46,6 +46,10 @@ createLicenseholderDataLinks() {
     createLicenseholderDependingLink $licenseholderId upload_images
     printf ", "
     createLicenseholderDependingLink $licenseholderId upload_pdf
+    printf ", "
+    createLicenseholderDependingLink $licenseholderId incoming
+    printf ", "
+    createLicenseholderDependingLink $licenseholderId archiv
 }
 
 createLicenseholderDependingLink()
