@@ -50,6 +50,8 @@ createLicenseholderDataLinks() {
     createLicenseholderDependingLink $licenseholderId incoming
     printf ", "
     createLicenseholderDependingLink $licenseholderId archiv
+    printf ", "
+    createLicenseholderDependingLink $licenseholderId temp
 }
 
 createLicenseholderDependingLink()
