@@ -17,20 +17,21 @@ COMMAND=$2
 BASE=`realpath "${0%/*}"`
 
 ACTIVE_FILE="$BASE/environments/$ENVIRONMENT/active"
+DATETIME=`date`
 
 if [[ ! -f "$ACTIVE_FILE" ]]; then
-    echo "The passed Environment $ENVIRONMENT is not known or there is no active container running."
+    echo "$DATETIME: The passed Environment $ENVIRONMENT is not known or there is no active container running."
     exit 1
 fi;
 
 
 ACTIVE_CONTAINER=`cat $ACTIVE_FILE`
 
-docker exec -i $ACTIVE_CONTAINER $COMMAND "${@:3}"
+time docker exec -i $ACTIVE_CONTAINER $COMMAND "${@:3}"
 
 if [[ ! $? -eq 0 ]]; then
-    echo "Failed to execute '$COMMAND ${@:3}' in current instance of '$ENVIRONMENT'. (Return Code $?)";
+    echo "$DATETIME: Failed to execute '$COMMAND ${@:3}' in current instance of '$ENVIRONMENT'. (Return Code $?)";
     exit 1
 else
-    echo "Executed '$COMMAND ${@:3}' in current instance of '$ENVIRONMENT'. (Return Code $?)";
+    echo "$DATETIME: Executed '$COMMAND ${@:3}' in current instance of '$ENVIRONMENT'. (Return Code $?)";
 fi;
