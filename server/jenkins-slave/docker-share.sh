@@ -136,10 +136,10 @@ function stopCurrentContainer()
     local hostname=$1;
 
     if [ "$hostname" == "127.0.0.1" ] || [ "$hostname" == "localhost" ]; then
-        $BASE/docker-control.sh stop "$ENVIRONMENT"
+        $BASE/docker-control.sh stop "$TARGET_ENVIRONMENT"
         return $?
     else
-        ssh "$hostname" -p 2255 "/home/jenkins/slave/docker-control.sh stop $ENVIRONMENT"
+        ssh "$hostname" -p 2255 "/home/jenkins/slave/docker-control.sh stop $TARGET_ENVIRONMENT"
         return $?
     fi;
 }
@@ -152,7 +152,7 @@ function setupContainer()
     local hostname=$1;
 
     if [ "$hostname" == "127.0.0.1" ] || [ "$hostname" == "localhost" ]; then
-        $BASE/docker-control.sh setup-image "$ENVIRONMENT" "${VERSION_NUMBER}" "$VERSION"
+        $BASE/docker-control.sh setup-image "$TARGET_ENVIRONMENT" "${VERSION_NUMBER}" "$VERSION"
         return $?
     else
         ssh "$hostname" -p 2255 "/home/jenkins/slave/docker-control.sh setup-image ${TARGET_ENVIRONMENT} ${VERSION_NUMBER} $VERSION"
@@ -183,10 +183,10 @@ function startLatestContainer()
     local hostname=$1;
 
     if [ "$hostname" == "127.0.0.1" ] || [ "$hostname" == "localhost" ]; then
-        $BASE/docker-control.sh use-container "$ENVIRONMENT" "newest"
+        $BASE/docker-control.sh use-container "$TARGET_ENVIRONMENT" "newest"
         return $?
     else
-        ssh "$hostname" -p 2255 "/home/jenkins/slave/docker-control.sh use-container $ENVIRONMENT newest"
+        ssh "$hostname" -p 2255 "/home/jenkins/slave/docker-control.sh use-container $TARGET_ENVIRONMENT newest"
         return $?
     fi;
 }
@@ -200,9 +200,9 @@ function cleanOldContainers()
     local hostname=$1;
 
     if [ "$hostname" == "127.0.0.1" ] || [ "$hostname" == "localhost" ]; then
-        $BASE/docker-control.sh drop-containers "$ENVIRONMENT" 4 &
+        $BASE/docker-control.sh drop-containers "$TARGET_ENVIRONMENT" 4 &
     else
-        ssh "$hostname" -p 2255 "/home/jenkins/slave/docker-control.sh drop-containers $ENVIRONMENT 4"  &
+        ssh "$hostname" -p 2255 "/home/jenkins/slave/docker-control.sh drop-containers $TARGET_ENVIRONMENT 4"  &
     fi;
 }
 
