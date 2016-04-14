@@ -109,7 +109,7 @@ function refreshDockerCode()
         echo "Amak-Docker Code update on '$hostname' skipped. (master)"
     else
         echo "Amak-Docker Code update on '$hostname' started..."
-        ssh "$hostname" -p 2255 "cd /home/jenkins/slave/transfer && git pull" &
+        ssh "$hostname" -p 2255 "cd /home/jenkins/amak-docker/ && git pull" &
     fi;
 }
 
@@ -206,6 +206,36 @@ function cleanOldContainers()
     fi;
 }
 
+# waits until container is online or 45 seconds are gone
+#
+# arg 0 hostname
+function waitForContainerOnline()
+{
+    local hostname=$1;
+    local timeout=45;
+
+    try=0
+
+    while [ "$try" -le "$timeout" ]; do
+        try=$(($try+1))
+
+        if [ "$hostname" == "127.0.0.1" ] || [ "$hostname" == "localhost" ]; then
+              $BASE/environment.sh "$TARGET_ENVIRONMENT" service apache2 status
+              if [ $? -eq 0 ]; then
+                return 0
+              fi;
+        else
+            ssh "$hostname" -p 2255 "/home/jenkins/slave/environment.sh "$TARGET_ENVIRONMENT" service apache2 status"
+            if [ $? -eq 0 ]; then
+                return 0
+            fi;
+        fi
+
+        sleep 1
+    done
+    return 1
+}
+
 
 
 echo "Checking Connectivity..."
@@ -262,8 +292,21 @@ do
     if [ $RESULT -ne 0 ]; then
         printf " - \033[0;31m${ARGUMENTS[i]} FAILED\033[0m\n"
         FAILURES+=1
+        if [ $i -eq 3 ]; then
+            printf " - \033[0;31m$First Container Start failed, will stop share now!\033[0m\n"
+            break
+        fi;
     else
         printf " - \033[0;32m${ARGUMENTS[i]} OK\033[0m\n"
+    fi;
+    if [ $i -eq 3 ]; then
+        CONTAINER_ONLINE=`waitForContainerOnline ${ARGUMENTS[i]}`
+        RESULT=$?
+        echo -e "${CONTAINER_ONLINE}"
+        if [ $RESULT -ne 0 ]; then
+            printf " - \033[0;31m$First Container is not online after 45 seconds have gone, will stop share now!\033[0m\n"
+            break
+        fi;
     fi;
 done
 
