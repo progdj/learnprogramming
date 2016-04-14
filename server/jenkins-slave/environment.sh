@@ -27,11 +27,15 @@ fi;
 
 ACTIVE_CONTAINER=`cat $ACTIVE_FILE`
 
-time docker exec -i $ACTIVE_CONTAINER $COMMAND "${@:3}"
+docker exec -i $ACTIVE_CONTAINER $COMMAND "${@:3}"
 
-if [[ ! $? -eq 0 ]]; then
-    echo "$DATETIME: Failed to execute '$COMMAND ${@:3}' in current instance of '$ENVIRONMENT'. (Return Code $?)";
-    exit 1
+RESULT=$?
+
+if [[ ! $RESULT -eq 0 ]]; then
+    echo "$DATETIME: Failed to execute '$COMMAND ${@:3}' in current instance of '$ENVIRONMENT'. (Return Code $RESULT)";
 else
-    echo "$DATETIME: Executed '$COMMAND ${@:3}' in current instance of '$ENVIRONMENT'. (Return Code $?)";
+    echo "$DATETIME: Executed '$COMMAND ${@:3}' in current instance of '$ENVIRONMENT'. (Return Code $RESULT)";
 fi;
+
+
+exit ${RESULT}
