@@ -191,6 +191,21 @@ function startLatestContainer()
     fi;
 }
 
+# start the previous container
+#
+# arg 0 hostname
+function startPreviousContainer()
+{
+    local hostname=$1;
+
+    if [ "$hostname" == "127.0.0.1" ] || [ "$hostname" == "localhost" ]; then
+        $BASE/docker-control.sh use-container "$TARGET_ENVIRONMENT" 1
+        return $?
+    else
+        ssh "$hostname" -p 2255 "/home/jenkins/slave/docker-control.sh use-container $TARGET_ENVIRONMENT 1"
+        return $?
+    fi;
+}
 
 # clean up the container history
 #
@@ -269,6 +284,7 @@ wait
 echo "Setup Containers..."
 
 FAILURES=0;
+FAIL_ON_FIRST_CONTAINER=0;
 for ((i=3; i<$ARGUMENTS_TOTAL; i++));
 do
     CONTAINER_SETUP=`setupContainer ${ARGUMENTS[i]}`
@@ -300,15 +316,33 @@ do
         printf " - \033[0;32m${ARGUMENTS[i]} OK\033[0m\n"
     fi;
     if [ $i -eq 3 ]; then
+        printf " - Waiting for first docker instance to come back again...\n"
         CONTAINER_ONLINE=`waitForContainerOnline ${ARGUMENTS[i]}`
         RESULT=$?
         echo -e "${CONTAINER_ONLINE}"
         if [ $RESULT -ne 0 ]; then
             printf " - \033[0;31m$First Container is not online after 45 seconds have gone, will stop share now!\033[0m\n"
+            FAIL_ON_FIRST_CONTAINER=1
             break
         fi;
     fi;
 done
+
+
+if [ $FAIL_ON_FIRST_CONTAINER -eq 1 ]; then
+    echo "Recovery from fatal build, previous container will be activated now..."
+    for ((i=3; i<$ARGUMENTS_TOTAL; i++));
+    do
+        CONTAINER_START=`startPreviousContainer ${ARGUMENTS[i]}`
+        RESULT=$?
+        echo -e "${CONTAINER_START}"
+        if [ $RESULT -ne 0 ]; then
+            printf " - \033[0;31m${ARGUMENTS[i]} FAILED\033[0m\n"
+        else
+            printf " - \033[0;32m${ARGUMENTS[i]} OK\033[0m\n"
+        fi;
+    done
+fi;
 
 echo "Delete Images..."
 
