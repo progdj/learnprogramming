@@ -80,6 +80,10 @@ ADD apache/sites-available /etc/apache2/sites-available
 
 RUN a2dissite 000-default
 
+# maintenance page and default vhost, used if no host is matching at all
+ADD amak-maintenance /var/www/amak-maintenance
+RUN a2ensite 00-amak-maintenance
+
 RUN apache2ctl configtest
 
 # setup scripts
