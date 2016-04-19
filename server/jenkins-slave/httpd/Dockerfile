@@ -100,6 +100,14 @@ RUN /scripts/extract.sh
 # Set Server TimeZone
 ENV TZ Europe/Berlin
 
+# Add GPG Keyring
+RUN mkdir /www-gpg && chown www-data:www-data /www-gpg && chmod -R go-rwx /www-gpg
+ENV GNUPGHOME /www-gpg
+USER www-data
+ADD pgp-keys /pgp-keys
+RUN /scripts/gpg.sh
+USER root
+
 # Exports
 EXPOSE 80
 
