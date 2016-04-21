@@ -99,6 +99,14 @@ ENV TZ Europe/Berlin
 # application environment for development container only!
 ENV ENVIRONMENT development
 
+# Add GPG Keyring
+RUN mkdir /www-gpg && chown www-data:www-data /www-gpg && chmod -R go-rwx /www-gpg
+ENV GNUPGHOME /www-gpg
+USER www-data
+ADD pgp-keys /pgp-keys
+RUN /scripts/gpg.sh
+USER root
+
 EXPOSE 80
 
 WORKDIR "/var/www"
