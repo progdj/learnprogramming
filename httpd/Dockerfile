@@ -4,7 +4,7 @@ FROM ubuntu:trusty
 RUN DEBIAN_FRONTEND=noninteractive
 
 # ppa management
-RUN apt-get -y install software-properties-common
+RUN apt-get update && apt-get -y install software-properties-common
 
 # java 8
 RUN \
