@@ -42,8 +42,7 @@ RUN apt-get -y update && \
   nodejs-legacy \
   language-pack-de \
   language-pack-nl \
-  language-pack-fr \
-  imagemagick
+  language-pack-fr
 
 # php configuration
 ADD php/apache2/php.ini /etc/php5/apache2/php.ini
@@ -76,6 +75,11 @@ RUN a2enmod php5 && \
     a2enmod deflate && \
     a2enmod proxy_connect && \
     a2enmod macro
+
+# Compile special versions
+ADD compile /compile
+RUN chmod +x -R /compile/
+RUN /compile/*.sh
 
 # Add ICC profiles
 ADD icc_profiles /icc_profiles
