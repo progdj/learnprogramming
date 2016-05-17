@@ -37,7 +37,6 @@ RUN apt-get -y update && \
   php-pear \
   php5-dev \
   curl \
-  ghostscript \
   npm \
   nodejs-legacy \
   language-pack-de \
@@ -79,7 +78,8 @@ RUN a2enmod php5 && \
 # Compile special versions
 ADD compile /compile
 RUN chmod +x -R /compile/
-RUN /compile/*.sh
+RUN /compile/01-imagemagick.sh
+RUN /compile/02-ghostscript.sh
 
 # Add ICC profiles
 ADD icc_profiles /icc_profiles
@@ -115,3 +115,8 @@ EXPOSE 80
 
 WORKDIR "/var/www"
 CMD "/scripts/run.sh"
+
+RUN alias la='ls -hal'
+RUN alias ..='cd ..'
+
+
