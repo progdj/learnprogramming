@@ -1,6 +1,6 @@
 FROM ubuntu:trusty
 
-# Install apache
+# Non interactive frontend
 RUN DEBIAN_FRONTEND=noninteractive
 
 # ppa management
@@ -18,8 +18,8 @@ RUN \
 
 
 # php 5.6 repository
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
-RUN apt-add-repository ppa:ondrej/php5-5.6
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C && \
+    apt-add-repository ppa:ondrej/php5-5.6
 
 # packages
 RUN apt-get -y update && \
@@ -33,9 +33,9 @@ RUN apt-get -y update && \
   php5-cli \
   php5-mcrypt \
   php5-ssh2 \
+  libgpgme11-dev \
   php-pear \
   php5-dev \
-  libgpgme11-dev \
   ghostscript \
   language-pack-de \
   language-pack-nl \

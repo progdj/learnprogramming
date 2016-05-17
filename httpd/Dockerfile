@@ -30,15 +30,12 @@ RUN apt-get -y update && \
   php5-gd \
   php-apc \
   php5-curl \
-  php5-xdebug \
+  php5-cli \
   php5-mcrypt \
   php5-ssh2 \
   libgpgme11-dev \
   php-pear \
   php5-dev \
-  curl \
-  npm \
-  nodejs-legacy \
   language-pack-de \
   language-pack-nl \
   language-pack-fr
@@ -59,11 +56,19 @@ ADD php/vrsmedia-extensions /usr/lib/php5/vrsmedia-extensions
 ADD php/mods-available/pdflib.ini /etc/php5/mods-available/
 RUN php5enmod pdflib && php5enmod pdflib
 
-# Install composer
+# development only packages
+RUN apt-get -y update && \
+	apt-get -y install \
+   curl \
+   npm \
+   nodejs-legacy \
+   php5-xdebug
+
+# Install composer (dev only)
 RUN curl getcomposer.org/composer.phar > /usr/bin/composer
 RUN chmod +x /usr/bin/composer
 
-# Install grunt
+# Install grunt  (dev only)
 RUN npm install -g grunt-cli
 
 # Enable apache mods
@@ -111,6 +116,7 @@ ADD pgp-keys /pgp-keys
 RUN /scripts/gpg.sh
 USER root
 
+# Exports
 EXPOSE 80
 
 WORKDIR "/var/www"
