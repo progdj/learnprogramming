@@ -119,10 +119,11 @@ USER root
 # Exports
 EXPOSE 80
 
-WORKDIR "/var/www"
-CMD "/scripts/run.sh"
-
+# common aliases for development
 RUN alias la='ls -hal'
 RUN alias ..='cd ..'
+
+WORKDIR "/var/www"
+CMD ["/bin/bash", "/scripts/run.sh"]
 
 

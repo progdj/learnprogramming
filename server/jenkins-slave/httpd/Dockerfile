@@ -36,7 +36,6 @@ RUN apt-get -y update && \
   libgpgme11-dev \
   php-pear \
   php5-dev \
-  ghostscript \
   language-pack-de \
   language-pack-nl \
   language-pack-fr
@@ -69,7 +68,8 @@ RUN a2enmod php5 && \
 # Compile special versions
 ADD compile /compile
 RUN chmod +x -R /compile/
-RUN /compile/*.sh
+RUN /compile/01-imagemagick.sh
+RUN /compile/02-ghostscript.sh
 
 # Add ICC profiles
 ADD icc_profiles /icc_profiles
