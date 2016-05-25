@@ -425,12 +425,10 @@ if [ "$TASK" == "setup-image" ] || [ "$TASK" == "setup-package" ]; then
         fi;
 
     fi;
-
-	set AMAK_HOST_ID = `hostname`;
 		
     # create a container
-    echo "$SERVER: docker create -v ${AMAK_DATA_DIR}:/amak-data -v ${PORTAL_DATA_DIR}:/portal-data -v ${CONFIG_FOLDER}:/amak-config -p ${WEB_PORT}:80 -e ENVIRONMENT=${APP_ENVIRONMENT} -e AMAK_HOST_ID=${AMAK_HOST_ID} -e AMAK_CONTAINER_NAME=${CONTAINER_NAME} --restart=unless-stopped --name=${CONTAINER_NAME} ${DOCKER_IMAGE}"
-    docker create -v "${AMAK_DATA_DIR}:/amak-data" -v ${PORTAL_DATA_DIR}:/portal-data -v "${CONFIG_FOLDER}:/amak-config" -p "${WEB_PORT}:80" -e "ENVIRONMENT=${APP_ENVIRONMENT}" -e "AMAK_HOST_ID=${AMAK_HOST_ID}" -e "AMAK_CONTAINER_NAME=${CONTAINER_NAME}" --restart=unless-stopped --name="${CONTAINER_NAME}" "${DOCKER_IMAGE}"
+    echo "$SERVER: docker create -v ${AMAK_DATA_DIR}:/amak-data -v ${PORTAL_DATA_DIR}:/portal-data -v ${CONFIG_FOLDER}:/amak-config -p ${WEB_PORT}:80 -e ENVIRONMENT=${APP_ENVIRONMENT} -e AMAK_HOST_ID=${SERVER} -e AMAK_CONTAINER_NAME=${CONTAINER_NAME} --restart=unless-stopped --name=${CONTAINER_NAME} ${DOCKER_IMAGE}"
+    docker create -v "${AMAK_DATA_DIR}:/amak-data" -v ${PORTAL_DATA_DIR}:/portal-data -v "${CONFIG_FOLDER}:/amak-config" -p "${WEB_PORT}:80" -e "ENVIRONMENT=${APP_ENVIRONMENT}" -e "AMAK_HOST_ID=${SERVER}" -e "AMAK_CONTAINER_NAME=${CONTAINER_NAME}" --restart=unless-stopped --name="${CONTAINER_NAME}" "${DOCKER_IMAGE}"
 
     if [[ $? -ne 0 ]]; then
         >&2 echo "$SERVER: Failed to create the container!";
