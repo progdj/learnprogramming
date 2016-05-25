@@ -78,7 +78,7 @@ ADD icc_profiles /icc_profiles
 ADD apache/apache.conf /etc/apache2/apache2.conf
 ADD apache/cdn-domains.conf /etc/apache2/cdn-domains.conf
 ADD apache/cms-domains.conf /etc/apache2/cms-domains.conf
-
+ADD apache/amak-hostid.conf /etc/apache2/amak-hostid.conf
 ADD apache/macros /etc/apache2/macros
 ADD apache/sites-available /etc/apache2/sites-available
 
