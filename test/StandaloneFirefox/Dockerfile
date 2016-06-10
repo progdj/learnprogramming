@@ -1,0 +1,19 @@
+FROM selenium/node-firefox:2.53.0
+MAINTAINER Selenium <selenium-developers@googlegroups.com>
+
+USER root
+
+#====================================
+# Scripts to run Selenium Standalone
+#====================================
+COPY entry_point.sh /opt/bin/entry_point.sh
+RUN chmod +x /opt/bin/entry_point.sh
+
+COPY hostconfig /hostconfig/
+RUN chmod +x -R /hostconfig/
+
+CMD ["/bin/bash", "/hostconfig/run.sh"]
+
+EXPOSE 4444
+
+
