@@ -1,0 +1,38 @@
+cdn.vrs.local
+#CMS
+cms.vrs.local
+#adbooker - local
+frontend-1 schwaebische-post.anzeigen-aufgabe.de.local
+frontend-2 gmuender-tagespost.anzeigen-aufgabe.de.local
+frontend-3 main-netz.anzeigen-aufgabe.de.local
+frontend-4 merkur-online.anzeigen-aufgabe.de.local
+frontend-5 vrsmedia.anzeigen-aufgabe.de.local
+frontend-6 gea.anzeigen-aufgabe.de.local
+frontend-7 anzeigen.general-anzeiger-bonn.de.local
+frontend-8 haller-kreisblatt.anzeigen-aufgabe.de.local
+frontend-9 dagblad.anzeigen-aufgabe.de.local
+frontend-10 stimme.anzeigen-aufgabe.de.local
+frontend-11 echonews.anzeigen-aufgabe.de.local
+frontend-12 hna.anzeigen-aufgabe.de.local
+frontend-13 rhz.anzeigen-aufgabe.de.local
+frontend-14 brettener-woche.anzeigen-aufgabe.de.local
+frontend-15 vi 
+frontend-21 mozfreude.anzeigen-aufgabe.de.local
+frontend-23 nrc.anzeigen-aufgabe.de.local
+frontend-25 op-online.anzeigen-aufgabe.de.local
+frontend-34 nwzonline.anzeigen-aufgabe.de.local
+#adbooker.portal
+main-netz.vrs.local
+amak-portal.vrs.local
+amak.vrs.local
+hbs.vrs.local
+sdz.vrs.local
+main-netz.vrs.local
+gmund.vrs.local
+merkur.vrs.local
+gea.vrs.local gea.anzeigen-aufgabe.de.local
+bonn.vrs.local anzeigen.general-anzeiger-bonn.de.local general-anzeiger-bonn.anzeigen-aufgabe.de.local
+hk.vrs.local
+rhz.vrs.local
+dagblad.anzeigen-aufgabe.de.local
+rhz.anzeigen-aufgabe.de.local frontend-13
