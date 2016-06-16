@@ -77,8 +77,14 @@ function transferImageToHost()
         echo "Transfer to '$hostname' No need to transfer image."
     else
         echo "Transfer to '$hostname' started..."
-        ssh "$hostname" -p 2255 "mkdir -p ${IMAGE_SHARE_FOLDER}"
-        scp -P 2255 "${SHARED_IMAGE_FILE}" "${hostname}:${IMAGE_SHARE_FOLDER}/" &
+        ssh "$hostname" -p 2255 "[-f {SHARED_IMAGE_FILE} ]"
+        if [ $? -eq 1 ]; then
+            echo "Image will be transferred to '$hostname'."
+            ssh "$hostname" -p 2255 "mkdir -p ${IMAGE_SHARE_FOLDER}"
+            scp -P 2255 "${SHARED_IMAGE_FILE}" "${hostname}:${IMAGE_SHARE_FOLDER}/" &
+        else
+            echo "Image was found on '$hostname' No need to transfer the image."
+        fi;
     fi;
 }
 
