@@ -1,22 +1,5 @@
 # Selenium standalone
 
-#firefox1:
-#  build: StandaloneFirefox/
-#  container_name: amak-firefox1
-#  links:
-#    - httpd
-#  ports:
-#   - "4445:4444"
-#  volumes:
-#    - //hostc/amak/amak-docker/test/hostconfig/hosts.tst:/etc/hosts
-
-
-#firefox2:
-#  build: test/StandaloneFirefox/
-#  container_name: amak-firefox2
-#    ports:
-#     - "4445:4444"
-
 firefoxdebug:
     build: StandaloneFirefoxDebug/
     container_name: amak-firefoxdebug
@@ -25,16 +8,3 @@ firefoxdebug:
         - "4444:4444"
     volumes:
         - //hostc/amak/amak-docker/webdriver/hostconfig/hosts.docker:/etc/hosts
-     
-
-#chrome1:
-#  build: StandaloneChrome/
- #   container_name: amak-chrome1
- #   ports:
- #     - "3333:3333"
-
-#chrome2:
- # build: test/StandaloneChrome/
-  #container_name: amak-chrome1
-#  ports:
-#    - "3334:3333"
