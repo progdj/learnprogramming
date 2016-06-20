@@ -1,0 +1,48 @@
+127.0.0.1       localhost
+::1     localhost ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+172.17.0.3      amak-db d1574a5d2783
+172.17.0.3      db d1574a5d2783 amak-db
+172.17.0.4      3c93cb8d0de4
+#Adbooker Docker local
+192.168.99.100 cdn.vrs.local
+#CMS
+192.168.99.100 cms.vrs.local
+#adbooker - local
+192.168.99.100 frontend-1 schwaebische-post.anzeigen-aufgabe.de.local
+192.168.99.100 frontend-2 gmuender-tagespost.anzeigen-aufgabe.de.local
+192.168.99.100 frontend-3 main-netz.anzeigen-aufgabe.de.local
+192.168.99.100 frontend-4 merkur-online.anzeigen-aufgabe.de.local
+192.168.99.100 frontend-5 vrsmedia.anzeigen-aufgabe.de.local
+192.168.99.100 frontend-6 gea.anzeigen-aufgabe.de.local
+192.168.99.100 frontend-7 anzeigen.general-anzeiger-bonn.de.local
+192.168.99.100 frontend-8 haller-kreisblatt.anzeigen-aufgabe.de.local
+192.168.99.100 frontend-9 dagblad.anzeigen-aufgabe.de.local
+192.168.99.100 frontend-10 stimme.anzeigen-aufgabe.de.local
+192.168.99.100 frontend-11 echonews.anzeigen-aufgabe.de.local
+192.168.99.100 frontend-12 hna.anzeigen-aufgabe.de.local
+192.168.99.100 frontend-13 rhz.anzeigen-aufgabe.de.local
+192.168.99.100 frontend-14 brettener-woche.anzeigen-aufgabe.de.local
+192.168.99.100 frontend-15 vi
+192.168.99.100 frontend-21 mozfreude.anzeigen-aufgabe.de.local
+192.168.99.100 frontend-23 nrc.anzeigen-aufgabe.de.local
+192.168.99.100 frontend-25 op-online.anzeigen-aufgabe.de.local
+192.168.99.100 frontend-34 nwzonline.anzeigen-aufgabe.de.local
+#adbooker.portal
+192.168.99.100 main-netz.vrs.local
+192.168.99.100 amak-portal.vrs.local
+192.168.99.100 amak.vrs.local
+192.168.99.100 hbs.vrs.local
+192.168.99.100 sdz.vrs.local
+192.168.99.100 main-netz.vrs.local
+192.168.99.100 gmund.vrs.local
+192.168.99.100 merkur.vrs.local
+192.168.99.100 gea.vrs.local gea.anzeigen-aufgabe.de.local
+192.168.99.100 bonn.vrs.local anzeigen.general-anzeiger-bonn.de.local general-anzeiger-bonn.anzeigen-aufgabe.de.local
+192.168.99.100 hk.vrs.local
+192.168.99.100 rhz.vrs.local
+192.168.99.100 dagblad.anzeigen-aufgabe.de.local
+192.168.99.100 rhz.anzeigen-aufgabe.de.local frontend-13
