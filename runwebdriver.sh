@@ -1,4 +1,4 @@
 #!/bin/bash
-docker-machine start
+cd webdriver
 eval $(docker-machine env)
 docker-compose up

@@ -1,0 +1,10 @@
+# Selenium standalone
+
+firefoxdebug:
+    build: StandaloneFirefoxDebug/
+    container_name: amak-firefoxdebug
+    ports:
+        - "5900:5900"
+        - "4444:4444"
+    volumes:
+        - //hostc/amak/amak-docker/webdriver/hostconfig/hosts.docker:/etc/hosts
