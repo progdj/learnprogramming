@@ -337,6 +337,7 @@ done
 
 if [ $FAIL_ON_FIRST_CONTAINER -eq 1 ]; then
     echo "Recovery from fatal build, previous container will be activated now..."
+    FAILURES+=1
     for ((i=3; i<$ARGUMENTS_TOTAL; i++));
     do
         CONTAINER_START=`startPreviousContainer ${ARGUMENTS[i]}`
@@ -356,10 +357,6 @@ for ((i=3; i<$ARGUMENTS_TOTAL; i++));
 do
     deleteImageFile ${ARGUMENTS[i]}
 done
-
-
-echo "Waiting for previous steps (Delete Image Files) to complete..."
-wait
 
 
 echo "Waiting for previous steps (Delete Image Files) to complete..."
