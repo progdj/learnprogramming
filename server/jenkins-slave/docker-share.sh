@@ -233,7 +233,7 @@ function cleanOldContainers()
 function waitForContainerOnline()
 {
     local hostname=$1;
-    local timeout=45;
+    local timeout=300;
 
     try=0
 
