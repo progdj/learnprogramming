@@ -257,6 +257,29 @@ function waitForContainerOnline()
     return 1
 }
 
+# checks if migrations are executed as expected.
+#
+# arg 0 hostname
+function checkMigrationStatus()
+{
+    local hostname=$1;
+
+    if [ "$hostname" == "127.0.0.1" ] || [ "$hostname" == "localhost" ]; then
+          $BASE/environment.sh "$TARGET_ENVIRONMENT"  sudo -E -u www-data -g www-data /scripts/checkmigrations.sh
+          if [ $? -eq 0 ]; then
+            return 0
+          fi;
+    else
+        ssh "$hostname" -p 2255 "/home/jenkins/slave/environment.sh "$TARGET_ENVIRONMENT" sudo -E -u www-data -g www-data /scripts/checkmigrations.sh"
+        if [ $? -eq 0 ]; then
+            return 0
+        fi;
+    fi
+
+    return 1
+}
+
+
 
 
 echo "Checking Connectivity..."
@@ -291,6 +314,7 @@ echo "Setup Containers..."
 
 FAILURES=0;
 FAIL_ON_FIRST_CONTAINER=0;
+MIGRATIONS_FAILED=0;
 for ((i=3; i<$ARGUMENTS_TOTAL; i++));
 do
     CONTAINER_SETUP=`setupContainer ${ARGUMENTS[i]}`
@@ -327,9 +351,16 @@ do
         RESULT=$?
         echo -e "${CONTAINER_ONLINE}"
         if [ $RESULT -ne 0 ]; then
-            printf " - \033[0;31m$First Container is not online after 45 seconds have gone, will stop share now!\033[0m\n"
+            printf " - \033[0;31m$First Container is not online after 300 seconds have gone, will stop share now!\033[0m\n"
             FAIL_ON_FIRST_CONTAINER=1
             break
+         else
+            MIGRATIONS_CHECK=`checkMigrationStatus ${ARGUMENTS[i]}`
+            if [ $RESULT -ne 0 ]; then
+                echo -e "${MIGRATIONS_CHECK}"
+                MIGRATIONS_FAILED=1
+                FAILURES+=1
+            fi;
         fi;
     fi;
 done
@@ -378,5 +409,8 @@ if [ $FAILURES -eq 0 ]; then
     exit 0
 else
     echo "Deploy completed with errors! Please check log files..."
+    if [ $MIGRATIONS_FAILED -eq 1 ]; then
+        echo "Some or all migrations failed!"
+    fi;
     exit 1
 fi;
