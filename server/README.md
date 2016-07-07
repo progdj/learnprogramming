@@ -90,12 +90,12 @@ To build a current jenkins (or update the jenkins base) simply run `docker pull 
 Followed by `docker build -t vrs-jenkins-base ./jenkins`. 
 Create a new container 
 ```
-docker create -d -p 80:8080 -u jenkins \
+docker create -p 80:8080 -u jenkins \
 --restart=unless-stopped \
 -v /mnt/data/jenkins/jenkins-data:/var/jenkins_home \
 --link amak-firefoxdebug:firefox  \
 --link amak-chromedebug:chrome  \
---restart=unless-stopped 
+--restart=unless-stopped \
 --name vrs-jenkins-NEW-DATE vrs-jenkins-base
 ```
 Stop the old one Stop old instance `docker stop vrs-jenkins-OLD-DATE`. 
@@ -105,3 +105,6 @@ Start the new one by running `docker start vrs-jenkins-NEW-DATE`.
 ### The Jenkins Webdriver Farm
 
 Webdrivers are configured at `/webdriver/composer.json`.
+
+- Firefox (linked as `firefox` within jenkins container) on `78.137.97.99:4440` (VNC: 4441)
+- Chrome (linked as `chrome` within jenkins container) on `78.137.97.99:4442` (VNC: 4443)
