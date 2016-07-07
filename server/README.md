@@ -86,8 +86,10 @@ If your version is stable, you should remove the old container by running
 
 The jenkins server image needs the jenkins working directory, which is located on out jenkins server.
 
-To build a current jenkins (or update the jenkins base) simply run `docker pull jenkins`. 
+To build a current jenkins (or update the jenkins base) simply run `docker pull jenkins`.
+
 Followed by `docker build -t vrs-jenkins-base ./jenkins`. 
+
 Create a new container 
 ```
 docker create -p 80:8080 -u jenkins \
@@ -98,9 +100,9 @@ docker create -p 80:8080 -u jenkins \
 --restart=unless-stopped \
 --name vrs-jenkins-NEW-DATE vrs-jenkins-base
 ```
-Stop the old one Stop old instance `docker stop vrs-jenkins-OLD-DATE`. 
-Start the new one by running `docker start vrs-jenkins-NEW-DATE`.
+Stop old instance `docker stop vrs-jenkins-OLD-DATE`. 
 
+Start the new one by running `docker start vrs-jenkins-NEW-DATE`.
 
 ### The Jenkins Webdriver Farm
 
