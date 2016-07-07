@@ -9,7 +9,7 @@ firefoxdebug:
     restart: unless-stopped
 chromedebug:
     build: StandaloneChromeDebug/
-    container_name: amak-firefoxdebug
+    container_name: amak-chromedebug
     ports:
         - "4442:4444"
         - "4443:5900"
