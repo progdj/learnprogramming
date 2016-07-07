@@ -26,7 +26,7 @@ RUN curl getcomposer.org/composer.phar > /usr/bin/composer \
 # Install Node Js and grunt, bower and ant
 RUN curl -sL https://deb.nodesource.com/setup_dev | bash - \
     && apt-get install --yes nodejs build-essential ant \
-    && npm install -g grunt-cli
+    && npm install -g grunt-cli \
     && npm install -g bower
 
 
