@@ -4,7 +4,6 @@ firefoxdebug:
     build: StandaloneFirefoxDebug/
     container_name: amak-firefoxdebug
     ports:
-        - "5900:5900"
-        - "4444:4444"
-    volumes:
-        - //hostc/amak/amak-docker/webdriver/hostconfig/hosts.docker:/etc/hosts
+        - "127.0.0.1:5900:5900"
+        - "127.0.0.1:4444:4444"
+    restart: always
