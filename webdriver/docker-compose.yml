@@ -4,6 +4,13 @@ firefoxdebug:
     build: StandaloneFirefoxDebug/
     container_name: amak-firefoxdebug
     ports:
-        - "127.0.0.1:5900:5900"
-        - "127.0.0.1:4444:4444"
-    restart: always
+        - "4440:4444"
+        - "4441:5900"
+    restart: unless-stopped
+chromedebug:
+    build: StandaloneChromeDebug/
+    container_name: amak-firefoxdebug
+    ports:
+        - "4442:4444"
+        - "4443:5900"
+    restart: unless-stopped
