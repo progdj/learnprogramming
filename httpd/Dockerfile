@@ -70,6 +70,8 @@ RUN chmod +x /usr/bin/composer
 
 # Install grunt  (dev only)
 RUN npm install -g grunt-cli
+# Install bower (dev only)
+RUN npm install -g bower
 
 # Enable apache mods
 RUN a2enmod php5 && \
