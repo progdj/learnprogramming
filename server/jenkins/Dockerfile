@@ -23,9 +23,9 @@ RUN curl getcomposer.org/composer.phar > /usr/bin/composer \
 # Apt cache Problems
 # RUN rm -rf /var/lib/apt/lists/* && apt-get clean && apt-get update && apt-get upgrade -y
 
-# Install Node Js and grunt, bower and ant
+# Install git, Node Js and grunt, bower and ant
 RUN curl -sL https://deb.nodesource.com/setup_dev | bash - \
-    && apt-get install --yes nodejs build-essential ant \
+    && apt-get install --yes git nodejs build-essential ant \
     && npm install -g grunt-cli \
     && npm install -g bower
 

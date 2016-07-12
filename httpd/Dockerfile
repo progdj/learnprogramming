@@ -60,6 +60,7 @@ RUN php5enmod pdflib && php5enmod pdflib
 RUN apt-get -y update && \
 	apt-get -y install \
    curl \
+   git \
    npm \
    nodejs-legacy \
    php5-xdebug
@@ -68,10 +69,8 @@ RUN apt-get -y update && \
 RUN curl getcomposer.org/composer.phar > /usr/bin/composer
 RUN chmod +x /usr/bin/composer
 
-# Install grunt  (dev only)
-RUN npm install -g grunt-cli
-# Install bower (dev only)
-RUN npm install -g bower
+# Install grunt bower (dev only)
+RUN npm install -g grunt-cli && npm install -g bower
 
 # Enable apache mods
 RUN a2enmod php5 && \
