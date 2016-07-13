@@ -110,4 +110,4 @@ Webdrivers are configured at `/webdriver/composer.json`.
 
 - Firefox (linked as `firefox` within jenkins container) on `78.137.97.99:4440` (VNC: 4441)
 - Chrome (linked as `chrome` within jenkins container) on `78.137.97.99:4442` (VNC: 4443)     
-    The password for the vnc connection is 'secret'
+    The password for the vnc connection is 'Selenium2016'
