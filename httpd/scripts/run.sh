@@ -23,6 +23,9 @@ if [ -d /var/www/amak-frontend ]; then
         mkdir -p /var/www/amak-frontend/protected/vendor/html2pdf/html2Pdf/out
         chmod -R 777 /var/www/amak-frontend/protected/vendor/html2pdf/html2Pdf/out
 
+        # data directories
+        /scripts/prepare-data-directories.sh /var/www/amak-frontend
+
         # apply configuration
         cd /var/www/amak-frontend;
         vendor/bin/phing config;
@@ -73,6 +76,9 @@ if [ -d /var/www/amak-cms ]; then
         chmod -R 777 /var/www/amak-cms/protected/vendor/html2pdf/html2Pdf/temp
         mkdir -p /var/www/amak-cms/protected/vendor/html2pdf/html2Pdf/out
         chmod -R 777 /var/www/amak-cms/protected/vendor/html2pdf/html2Pdf/out
+
+        # data directories
+        /scripts/prepare-data-directories.sh /var/www/amak-cms
 
         # apply configuration
         cd /var/www/amak-cms;
