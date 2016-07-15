@@ -20,7 +20,6 @@ head over to the [Documentation](https://docs.docker.com/) and gain even deeper 
   - Please note the ip address from `docker-machine env default`, you will need this in order to update your `host` file.
 - Leave the prompt open, you will need it after the following steps again.
 - Now we need to configure the filesystem shares.
-  - Open Virtual Box and locate the vm `default`.
   - Open the control panel for that vm.
   - Configure the shared folders, **for each used hard drive** from your host system:
     - Create a permanent mount named like following pattern **C** to **C:\\**, **D** to **D:\\**.
@@ -71,7 +70,9 @@ mount -t vboxsf -o uid=1000,gid=50 D /hostd
 
 ### Grunt / NPM
 
-- If you need to deploy assets (grunt, npm) you should consider using the shortcut `vendor/bin/phing npm && vendor/bin/phing grunt` inside each package!
+- If you need to deploy assets (grunt, npm) you should consider using the shortcut    
+  `vendor/bin/phing npm && vendor/bin/phing grunt`    
+inside each package!
  - Do not forget to install grunt cli before `npm install -g grunt-cli`
  - Non windows users can use amaker tasks for this. 
 
