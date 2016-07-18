@@ -106,7 +106,7 @@ Start the new one by running `docker start vrs-jenkins-NEW-DATE`.
 
 ### The Jenkins Webdriver Farm
 
-Webdrivers are configured at `/webdriver/composer.json`.
+Webdrivers are configured at `/webdriver/docker-compose.yml`.
 
 - Firefox (linked as `firefox` within jenkins container) on `78.137.97.99:4440` (VNC: 4441)
 - Chrome (linked as `chrome` within jenkins container) on `78.137.97.99:4442` (VNC: 4443)     
