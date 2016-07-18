@@ -100,7 +100,7 @@ class ComposeConfigureCommand extends Command
             $configuration->setMysqlDataDir($this->getApplication()->getIO()->ask('Where to store the mysql files? (/.db/mysql)', './db/mysql'));
         }
 
-        $configuration->setPrefix($this->getApplication()->getIO()->ask('Please supply the default container prefix? (amak)', 'amak'));
+        $configuration->setPrefix('amak');
 
         $configuration->setDatabasePort($dbPort);
         $configuration->setHttpdPort($httpdPort);
