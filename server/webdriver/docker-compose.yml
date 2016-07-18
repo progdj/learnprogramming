@@ -1,20 +1,16 @@
 # Selenium standalone
 
 firefoxdebug:
-    build: firefox-debug/
+    build: StandaloneFirefoxDebug/
     container_name: amak-firefoxdebug
     ports:
         - "4440:4444"
         - "4441:5900"
     restart: unless-stopped
-    external_links:
-      - amak-httpd:http
 chromedebug:
-    build: chrome-debug/
+    build: StandaloneChromeDebug/
     container_name: amak-chromedebug
     ports:
         - "4442:4444"
         - "4443:5900"
     restart: unless-stopped
-    external_links:
-      - amak-httpd:http
