@@ -20,6 +20,8 @@ I use a **socks 5 proxy** configured on my `ssh config` for an `vrs-server`.
         DynamicForward 3333
 
 This will allow you to use `127.0.0.1:3333` as `socks proxy`. Unfortunately most soap clients require a http based proxy.
+
+*On window based systems you can use putty to create a dynamic forward. Ensure that you bind it to your local loopback as it's default for linux. Otherwise yor might create a public proxy.*
  
 To create a httpd proxy out of your local socks proxy you can use http://www.delegate.org/delegate/. 
 With delegate you can create a http proxy on a new local port.
