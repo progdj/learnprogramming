@@ -97,8 +97,6 @@ ADD apache/sites-available /etc/apache2/sites-available
 
 RUN a2dissite 000-default
 
-RUN apache2ctl configtest
-
 # setup scripts
 ADD scripts /scripts
 RUN chmod +x -R /scripts/
@@ -116,6 +114,12 @@ USER www-data
 ADD pgp-keys /pgp-keys
 RUN /scripts/gpg.sh
 USER root
+
+# special local development machine config
+ADD apache/development /etc/apache2/development
+
+# check syntax
+RUN apache2ctl configtest
 
 # Exports
 EXPOSE 80

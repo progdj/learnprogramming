@@ -13,3 +13,4 @@
 /server/jenkins-slave/environments/
 /server/jenkins-slave/httpd/packages/
 /server/jenkins-slave/transfer/
+/httpd/apache/development/
