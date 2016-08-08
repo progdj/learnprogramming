@@ -13,7 +13,7 @@ head over to the [Documentation](https://docs.docker.com/) and gain even deeper 
 3. Install Boot2Docker (Non Linux Only)
 4. Install Docker Compose
 
-### Configure Environment (Non Linux Only)
+### Configure Environment (Docker in VM only)
 - Open a shell **please not cmd** and run `docker-machine start default`.
 - Run `docker-machine env default` and follow the instructions (run `eval $("docker-machine" env default)`)
   - Please note the ip address from `docker-machine env default`, you will need this in order to update your `host` file.
@@ -84,7 +84,7 @@ inside each package!
  - Do not forget to install grunt cli before `npm install -g grunt-cli`
  - You might need to install bower as well `npm install -g bower`
  - add the whole npm folder to your path environment variable `C:\Users\<username>\AppData\Roaming\npm`
- - Non windows users can use amaker tasks for this.
+ - You can use amaker tasks for this on windows an *nix systems.
 
 ## Installation
 ### 1. Install Docker Toolbox
