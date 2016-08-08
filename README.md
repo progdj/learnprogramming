@@ -14,15 +14,20 @@ head over to the [Documentation](https://docs.docker.com/) and gain even deeper 
 4. Install Docker Compose
 
 ### Configure Environment (Non Linux Only)
-
 - Open a shell **please not cmd** and run `docker-machine start default`.
 - Run `docker-machine env default` and follow the instructions (run `eval $("docker-machine" env default)`)
   - Please note the ip address from `docker-machine env default`, you will need this in order to update your `host` file.
 - Leave the prompt open, you will need it after the following steps again.
 - Now we need to configure the filesystem shares.
+  - *macOS only*: It might be the case that you will experience permission problems: Consequently create a new user with id=1000 (www-data) and gid=1000 (www-data, create first). [Tutorial: How to create a User in macOS](https://support.apple.com/kb/PH18891?locale=de_DE)
   - Open the control panel for that vm.
   - Configure the shared folders, **for each used hard drive** from your host system:
-    - Create a permanent mount named like following pattern **C** to **C:\\**, **D** to **D:\\**.
+    - Create a permanent mount named like the following pattern:
+      - *Windows*:
+        - **C** points to **C:\\**
+        - **D** points to **D:\\**
+      - *macOS*:
+        - **C** points to the folder, which contains all your *amak-\** projects.
     - Please use **uppercase letters** for the share names!
     - ![Virtual Box Shared Folders Link](./docs/virtualbox-shared-folders-link.jpg "Virtual Box Shared Folders Link")
     - ![Virtual Box Shared Folders Dialog](./docs/virtualbox-shared-folders.jpg "Virtual Box Shared Folders Dialog")
@@ -30,7 +35,7 @@ head over to the [Documentation](https://docs.docker.com/) and gain even deeper 
 - Go back to your prompt...  (please use git-bash for this, as cgywin might not work at all..)
  - Enter the Docker Provider Machine (Boot2Docker) by running `docker-machine ssh default`
     - In that prompt run `sudo su`.
-    - Create the file **/var/lib/boot2docker/bootsync.sh** by running 
+    - Create the file **/var/lib/boot2docker/bootsync.sh** by running
       `touch /var/lib/boot2docker/bootsync.sh && chmod +x /var/lib/boot2docker/bootsync.sh`
     - Open the file in a editor like `vi /var/lib/boot2docker/bootsync.sh`.
     - Configure your previously defined shares, adapt following example:
@@ -46,15 +51,18 @@ mount -t vboxsf -o uid=1000,gid=50 D /hostd
 ```
 
 - Execute that file by running `/var/lib/boot2docker/bootsync.sh`, there should be no errors!
-- Now run `composer install` inside your `amak-docker` directory.
 
 ### Setup Container
 
-- First run `composer install`, followed by `./amaker compose-config`.
+- First run `composer install` inside your `amak-docker` directory, followed by `./amaker compose-config`.
 - You should setup all your packages by running `composer update`.
 - Verify that each package has a valid `config.properties` inside it's root directory, if note create one by template `config.properties-dist`.
-- On first start with `docker-compose up` you need to import data into `amak-db`, now restart with `docker-compose stop` and `docker-compose up`.
-- Focus on docker-compose output which starts with `amak-httpd`. 
+- Run `docker-compose up`.
+- On first start you need to import data into `amak-db`.
+  - Connect to the mysql server via the docker machine and ask a coworker to import a given database.
+  - Ask a coworker to get the *data* folder and merge it with the given one in *amak-frontend/data*.
+  - Restart with `docker-compose stop` and `docker-compose up` (You might want to open a second terminal).
+- Focus on docker-compose output which starts with `amak-httpd`.
 
 ### Specials
 
@@ -63,7 +71,7 @@ mount -t vboxsf -o uid=1000,gid=50 D /hostd
   - You can create a line for each `licenseholder child`.
     - Syntax is: `ChildId;vhostAlias1 VHostAlias2`.
     - **The file must end with one blank line!**
-  - Restart the httpd container. 
+  - Restart the httpd container.
 - Each licenseholder child has one default alias named `frontend-[CHILDiD]`.
 - Each `domain` and `portal` has one default alias named `[domain|portal].local`.
   - Values for `domain` and `portal` will be used from db!  
@@ -76,7 +84,7 @@ inside each package!
  - Do not forget to install grunt cli before `npm install -g grunt-cli`
  - You might need to install bower as well `npm install -g bower`
  - add the whole npm folder to your path environment variable `C:\Users\<username>\AppData\Roaming\npm`
- - Non windows users can use amaker tasks for this. 
+ - Non windows users can use amaker tasks for this.
 
 ## Installation
 ### 1. Install Docker Toolbox
@@ -145,4 +153,3 @@ When you're connected, you can do migrations:
 ## Things to consider
 Since this project will be filled up with **amak-frontend** and **amak-source**, remember to **not add them to the VCS!**
 It is hereby recommended to deploy this project locally in order to not let that stuff slip into your workspace.
-
