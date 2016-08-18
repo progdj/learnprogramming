@@ -1,15 +1,15 @@
-#Adbooker Docker local
+# AdBooker Docker local
 127.0.0.1 cdn.vrs.local
-#CMS
+# CMS
 127.0.0.1 cms.vrs.local
-#adbooker - local
+# AdBooker
 127.0.0.1 frontend-1 schwaebische-post.anzeigen-aufgabe.de.local
 127.0.0.1 frontend-2 gmuender-tagespost.anzeigen-aufgabe.de.local
-127.0.0.1 frontend-3 main-netz.anzeigen-aufgabe.de.local
-127.0.0.1 frontend-4 merkur-online.anzeigen-aufgabe.de.local
+127.0.0.1 frontend-3 main-echo.anzeigen-aufgabe.de.local
+127.0.0.1 frontend-4 merkur.anzeigen-aufgabe.de.local
 127.0.0.1 frontend-5 vrsmedia.anzeigen-aufgabe.de.local
 127.0.0.1 frontend-6 gea.anzeigen-aufgabe.de.local
-127.0.0.1 frontend-7 anzeigen.general-anzeiger-bonn.de.local
+127.0.0.1 frontend-7 general-anzeiger-bonn.anzeigen-aufgabe.de.local
 127.0.0.1 frontend-8 haller-kreisblatt.anzeigen-aufgabe.de.local
 127.0.0.1 frontend-9 dagblad.anzeigen-aufgabe.de.local
 127.0.0.1 frontend-10 stimme.anzeigen-aufgabe.de.local
@@ -18,20 +18,25 @@
 127.0.0.1 frontend-13 rhz.anzeigen-aufgabe.de.local
 127.0.0.1 frontend-14 brettener-woche.anzeigen-aufgabe.de.local
 127.0.0.1 frontend-15 moztrauer.anzeigen-aufgabe.de.local
+127.0.0.1 frontend-16 stadtanzeiger.anzeigen-aufgabe.de
+127.0.0.1 frontend-17 koeln-reisen.anzeigen-aufgabe.de
+127.0.0.1 frontend-18 koeln-finanzen.anzeigen-aufgabe.de
+127.0.0.1 frontend-19 koeln-glueck.anzeigen-aufgabe.de
+127.0.0.1 frontend-20 koeln-bekanntschaften.anzeige-aufgabe.de
 127.0.0.1 frontend-21 mozfreude.anzeigen-aufgabe.de.local
 127.0.0.1 frontend-23 nrc.anzeigen-aufgabe.de.local
 127.0.0.1 frontend-25 op-online.anzeigen-aufgabe.de.local
 127.0.0.1 frontend-34 nwzonline.anzeigen-aufgabe.de.local
-#adbooker.portal
-127.0.0.1 main-netz.vrs.local
-127.0.0.1 amak-portal.vrs.local
-127.0.0.1 amak.vrs.local
-127.0.0.1 hbs.vrs.local
-127.0.0.1 sdz.vrs.local
-127.0.0.1 main-netz.vrs.local
-127.0.0.1 gmund.vrs.local
-127.0.0.1 merkur.vrs.local
-127.0.0.1 gea.vrs.local gea.anzeigen-aufgabe.de.local
-127.0.0.1 bonn.vrs.local anzeigen.general-anzeiger-bonn.de.local general-anzeiger-bonn.anzeigen-aufgabe.de.local
+# AdMarkets
+127.0.0.1 vrsmedia.rubrikenanzeigen.de.local
+127.0.0.1 haller-kreisblatt.rubrikenanzeigen.de
+127.0.0.1 stadtanzeiger.rubrikenanzeigen.de
+127.0.0.1 koeln-finanzen.rubrikenanzeigen.de
+127.0.0.1 koeln-reisen.rubrikenanzeigen.de
+127.0.0.1 koeln-glueck.rubrikenanzeigen.de
+127.0.0.1 koeln-bekanntschaften.rubrikenanzeigen.de
+127.0.0.1 koeln-kfz.rubrikenanzeigen.de
+127.0.0.1 stimme.rubrikenanzeigen.de
 127.0.0.1 hk.vrs.local
 127.0.0.1 rhz.vrs.local
+127.0.0.1 stimme.rubrikenanzeigen.de.local
