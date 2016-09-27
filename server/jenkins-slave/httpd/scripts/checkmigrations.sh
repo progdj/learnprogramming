@@ -39,14 +39,14 @@ if [ -d /var/www/amak-frontend ]; then
 fi;
 
 
-if [ -d /var/www/amak-portal ]; then
-    cd /var/www/amak-portal
-    php yiic migrate --interactive=0
-    if [ $? -ne 0 ]; then
-        >&2 echo -e "\n\nERROR: Package amak-portal contains failing migrations!";
-        FAILED_MIGRATIONS=1
-    fi;
-fi;
+#if [ -d /var/www/amak-portal ]; then
+#    cd /var/www/amak-portal
+#    php yiic migrate --interactive=0
+#    if [ $? -ne 0 ]; then
+#        >&2 echo -e "\n\nERROR: Package amak-portal contains failing migrations!";
+#        FAILED_MIGRATIONS=1
+#    fi;
+#fi;
 
 if [ ${FAILED_MIGRATIONS} -eq 1 ]; then
     >&2 echo -e "\n\nERROR: Build contains failing migrations!";
