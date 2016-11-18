@@ -19,42 +19,48 @@ RUN \
 
 # php 5.6 repository
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C && \
-    apt-add-repository ppa:ondrej/php5-5.6
+    apt-add-repository ppa:ondrej/php
 
 # packages
 RUN apt-get -y update && \
 	apt-get -y install \
   apache2 \
-  libapache2-mod-php5 \
-  php5-mysql \
-  php5-gd \
-  php-apc \
-  php5-curl \
-  php5-cli \
-  php5-mcrypt \
-  php5-ssh2 \
+  libapache2-mod-php5.6 \
+  php5.6-mysql \
+  php5.6-gd \
+  php5.6-apc \
+  php5.6-curl \
+  php5.6-soap \
+  php5.6-dom \
+  php5.6-imap \
+  php5.6-zip \
+  php5.6-mbstring \
+  php5.6-cli \
+  php5.6-mcrypt \
+  php5.6-ssh2 \
   libgpgme11-dev \
   php-pear \
-  php5-dev \
+  php5.6-dev \
+  php5.6 \
   language-pack-de \
   language-pack-nl \
   language-pack-fr
 
 # php configuration
-ADD php/apache2/php.ini /etc/php5/apache2/php.ini
-ADD php/cli/php.ini /etc/php5/cli/php.ini
+ADD php/apache2/php.ini /etc/php/5.6/apache2/php.ini
+ADD php/cli/php.ini /etc/php/5.6/cli/php.ini
 
 # Install GnuPG PHP Extension
-RUN pecl install gnupg
-ADD php/mods-available/gnupg.ini /etc/php5/mods-available/
-RUN php5enmod gnupg
+# RUN pecl install gnupg
+# ADD php/mods-available/gnupg.ini /etc/php/5.6/mods-available/
+# RUN ln -s /etc/php/5.6/mods-available/gnupg.ini /etc/php/5.6/apache2/conf.d/20-gnupg.ini
 
 # php vrs-extensions
-ADD php/vrsmedia-extensions /usr/lib/php5/vrsmedia-extensions
+ADD php/vrsmedia-extensions /usr/lib/php/5.6/vrsmedia-extensions
 
 # php vrs-extensions pdflib
-ADD php/mods-available/pdflib.ini /etc/php5/mods-available/
-RUN php5enmod pdflib && php5enmod pdflib
+ADD php/mods-available/pdflib.ini /etc/php/5.6/mods-available/
+RUN ln -s /etc/php/5.6/mods-available/pdflib.ini /etc/php/5.6/apache2/conf.d/20-pdflib.ini
 
 # development only packages
 RUN apt-get -y update && \
@@ -63,7 +69,7 @@ RUN apt-get -y update && \
    git \
    npm \
    nodejs-legacy \
-   php5-xdebug
+   php5.6-xdebug
 
 # Install composer (dev only)
 RUN curl getcomposer.org/composer.phar > /usr/bin/composer
@@ -73,7 +79,7 @@ RUN chmod +x /usr/bin/composer
 RUN npm install -g grunt-cli && npm install -g bower
 
 # Enable apache mods
-RUN a2enmod php5 && \
+RUN a2enmod php5.6 && \
     a2enmod rewrite && \
     a2enmod headers && \
     a2enmod proxy_http && \
@@ -117,6 +123,9 @@ USER root
 
 # special local development machine config
 ADD apache/development /etc/apache2/development
+
+# set correct php version as standard
+RUN update-alternatives --set php /usr/bin/php5.6
 
 # check syntax
 RUN apache2ctl configtest
