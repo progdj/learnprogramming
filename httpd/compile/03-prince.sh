@@ -7,10 +7,12 @@ cd /compile/
 # preset
 apt-get install libgif4
 
-tar xzvf prince-10r7-ubuntu14.04-amd64.tar.gz
+tar xzvf prince-11.1-ubuntu14.04-amd64.tar.gz
 
-cd prince-10r7-ubuntu14.04-amd64/
+cd prince-11.1-ubuntu14.04-amd64/
 
-./install.sh < "/usr/local"
+./install.sh < "/usr/bin"
 
-echo "installed prince 10r7"
+echo "installed prince 11.1"
+
+prince --version
