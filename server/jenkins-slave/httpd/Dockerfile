@@ -77,6 +77,7 @@ ADD compile /compile
 RUN chmod +x -R /compile/
 RUN /compile/01-imagemagick.sh
 RUN /compile/02-ghostscript.sh
+RUN /compile/03-prince.sh
 
 # Add ICC profiles
 ADD icc_profiles /icc_profiles
