@@ -42,6 +42,7 @@ RUN apt-get -y update && \
   php-pear \
   php5.6-dev \
   php5.6 \
+  php5.6-bcmath \
   language-pack-de \
   language-pack-nl \
   language-pack-fr
