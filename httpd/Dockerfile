@@ -86,7 +86,8 @@ RUN a2enmod php5.6 && \
     a2enmod proxy_http && \
     a2enmod deflate && \
     a2enmod proxy_connect && \
-    a2enmod macro
+    a2enmod macro && \
+    a2enmod ssl
 
 # Compile special versions
 ADD compile /compile
