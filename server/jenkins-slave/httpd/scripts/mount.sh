@@ -54,6 +54,8 @@ createLicenseholderDataLinks() {
     createLicenseholderDependingLink $licenseholderId temp
     printf ", "
     createLicenseholderDependingLink $licenseholderId images
+    printf ", "
+    createLicenseholderDependingLink $licenseholderId references
 }
 
 createLicenseholderDependingLink()
