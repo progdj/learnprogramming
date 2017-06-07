@@ -57,6 +57,7 @@ createLicenseholderDataDirectories() {
     createLicenseholderDirectory $licenseholderId incoming
     createLicenseholderDirectory $licenseholderId archiv
     createLicenseholderDirectory $licenseholderId temp
+    createLicenseholderDirectory $licenseholderId references
 }
 
 createLicenseholderDirectory()
