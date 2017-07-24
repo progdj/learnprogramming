@@ -110,6 +110,7 @@ ADD icc_profiles /icc_profiles
 # Apache Configuration
 ADD apache/apache.conf /etc/apache2/apache2.conf
 ADD apache/macros /etc/apache2/macros
+ADD apache/proxy /etc/apache2/proxy
 ADD apache/sites-available /etc/apache2/sites-available
 
 RUN a2dissite 000-default
