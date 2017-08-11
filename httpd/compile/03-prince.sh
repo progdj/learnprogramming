@@ -6,6 +6,7 @@ cd /compile/
 
 # preset
 apt-get install libgif4
+apt-get install libcairo2
 
 tar xzvf prince-11.3-ubuntu14.04-amd64.tar.gz
 
