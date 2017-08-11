@@ -79,7 +79,6 @@ RUN chmod +x -R /compile/
 RUN /compile/02-ghostscript.sh
 RUN /compile/03-prince.sh
 RUN /compile/04-xpdfbin.sh
-RUN /compile/01-imagemagick.sh
 
 # prerequired for Pillow
 RUN apt-get -y install libpng-dev && \
@@ -91,6 +90,8 @@ RUN apt-get -y install python-pip && \
     pip install PyPDF2 && \
     pip install Pillow && \
     pip install pdfCropMargins
+
+RUN /compile/01-imagemagick.sh
 
 # Add ICC profiles
 ADD icc_profiles /icc_profiles
