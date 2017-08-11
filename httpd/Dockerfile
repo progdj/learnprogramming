@@ -97,6 +97,10 @@ RUN /compile/02-ghostscript.sh
 RUN /compile/03-prince.sh
 RUN /compile/04-xpdfbin.sh
 
+# prerequired for Pillow
+RUN apt-get -y install libpng-dev && \
+    apt-get -y install zlib1g-dev
+
 # pdfCropMargins
 RUN apt-get -y install python-pip && \
     apt-get -y install python-dev && \
