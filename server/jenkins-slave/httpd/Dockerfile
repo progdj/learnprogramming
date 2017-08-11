@@ -81,7 +81,8 @@ RUN /compile/03-prince.sh
 RUN /compile/04-xpdfbin.sh
 
 # prerequired for Pillow
-RUN apt-get -y install libpng-dev && \
+RUN apt-get -y install libjpeg-dev && \
+    apt-get -y install libpng-dev && \
     apt-get -y install zlib1g-dev
 
 # pdfCropMargins
