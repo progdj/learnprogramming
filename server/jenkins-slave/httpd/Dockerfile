@@ -76,6 +76,7 @@ RUN a2enmod php5.6 && \
 # Compile special versions
 ADD compile /compile
 RUN chmod +x -R /compile/
+RUN /compile/01-imagemagick.sh
 RUN /compile/02-ghostscript.sh
 RUN /compile/03-prince.sh
 RUN /compile/04-xpdfbin.sh
@@ -91,8 +92,6 @@ RUN apt-get -y install python-pip && \
     pip install PyPDF2 && \
     pip install Pillow && \
     pip install pdfCropMargins
-
-RUN /compile/01-imagemagick.sh
 
 # Add ICC profiles
 ADD icc_profiles /icc_profiles
